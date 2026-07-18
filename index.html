@@ -25,7 +25,6 @@
         <a href="#metodologia">Cómo trabajamos</a>
         <a href="#estimador">Estimador</a>
         <a href="#contacto">Contacto</a>
-        <a href="admin.html" class="btn btn-sm btn-primary">Ingresar a AGP Platform</a>
       </nav>
     </div>
   </header>
@@ -213,7 +212,23 @@
               </div>
             </div>
 
-            <div class="form-section"><div class="form-section-title"><span>4</span><div><strong>Recibe una propuesta formal</strong><small>La solicitud aparecerá automáticamente en el panel comercial</small></div></div><div class="fields-grid"><label><span>Empresa</span><input id="leadCompany" type="text" placeholder="Nombre o razón social"></label><label><span>Persona de contacto</span><input id="leadContact" type="text" placeholder="Nombre completo"></label><label><span>Celular / WhatsApp</span><input id="leadPhone" type="tel" placeholder="999 999 999"></label><label><span>Correo</span><input id="leadEmail" type="email" placeholder="correo@empresa.com"></label></div><button class="btn btn-outline btn-full" id="saveLead" type="button" style="margin-top:16px">Registrar solicitud en AGP</button></div><button class="btn btn-primary btn-full" type="submit">Actualizar estimación</button>
+            <div class="form-section proposal-form-section">
+              <div class="form-section-title"><span>4</span><div><strong>Solicita una propuesta formal</strong><small>Completa tus datos solo cuando quieras que un asesor revise el alcance</small></div></div>
+              <div class="proposal-intro">
+                <div class="proposal-icon">✓</div>
+                <div><strong>Revisión personalizada por AGP</strong><p>Validaremos volumen, sedes, horarios y entregables antes de emitir el precio definitivo.</p></div>
+              </div>
+              <div class="fields-grid">
+                <label><span>Empresa</span><input id="leadCompany" type="text" placeholder="Nombre o razón social"></label>
+                <label><span>Persona de contacto</span><input id="leadContact" type="text" placeholder="Nombre completo"></label>
+                <label><span>Celular / WhatsApp</span><input id="leadPhone" type="tel" placeholder="999 999 999"></label>
+                <label><span>Correo</span><input id="leadEmail" type="email" placeholder="correo@empresa.com"></label>
+              </div>
+              <button class="btn btn-proposal btn-full" id="saveLead" type="button">
+                <span>Solicitar revisión comercial</span><span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <button class="btn btn-primary btn-full" type="submit">Actualizar estimación</button>
           </form>
 
           <aside class="estimate-panel">
@@ -234,13 +249,19 @@
               <p>El precio final depende de la validación de la base, accesibilidad, tiempos, desplazamientos y condiciones de ejecución.</p>
             </div>
 
-            <button class="btn btn-whatsapp btn-full" id="sendWhatsapp" type="button">
+            <div class="advisor-card">
+              <div class="advisor-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><path fill="currentColor" d="M19.11 17.24c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.19-1.35-.81-.72-1.35-1.61-1.51-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.26s.98 2.62 1.11 2.8c.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32z"/><path fill="currentColor" d="M16.03 3C8.85 3 3 8.82 3 15.98c0 2.52.73 4.97 2.11 7.08L3 29l6.13-2.02a13 13 0 0 0 6.89 1.89h.01C23.2 28.87 29 23.04 29 15.9 29 8.75 23.2 3 16.03 3zm0 23.68h-.01a10.76 10.76 0 0 1-5.49-1.5l-.39-.23-3.64 1.2 1.22-3.54-.25-.4a10.7 10.7 0 0 1-1.65-5.71c0-5.93 4.84-10.75 10.81-10.75 2.89 0 5.6 1.12 7.64 3.15a10.67 10.67 0 0 1 3.17 7.61c0 5.93-4.85 10.17-10.81 10.17z"/></svg>
+              </div>
+              <div class="advisor-copy"><strong>¿Prefieres conversar ahora?</strong><span>Envía esta estimación a un asesor de AGP.</span></div>
+              <button class="btn btn-whatsapp" id="sendWhatsapp" type="button">
               <svg viewBox="0 0 32 32" aria-hidden="true">
                 <path fill="currentColor" d="M19.11 17.24c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.19-1.35-.81-.72-1.35-1.61-1.51-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.26s.98 2.62 1.11 2.8c.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32z"/>
                 <path fill="currentColor" d="M16.03 3C8.85 3 3 8.82 3 15.98c0 2.52.73 4.97 2.11 7.08L3 29l6.13-2.02a13 13 0 0 0 6.89 1.89h.01C23.2 28.87 29 23.04 29 15.9 29 8.75 23.2 3 16.03 3zm0 23.68h-.01a10.76 10.76 0 0 1-5.49-1.5l-.39-.23-3.64 1.2 1.22-3.54-.25-.4a10.7 10.7 0 0 1-1.65-5.71c0-5.93 4.84-10.75 10.81-10.75 2.89 0 5.6 1.12 7.64 3.15a10.67 10.67 0 0 1 3.17 7.61c0 5.93-4.85 10.17-10.81 10.17z"/>
               </svg>
-              Enviar estimación por WhatsApp
-            </button>
+              Enviar por WhatsApp
+              </button>
+            </div>
             <button class="btn btn-outline btn-full" id="copyEstimate" type="button">Copiar resumen</button>
             <small class="privacy-note">No solicitamos datos personales para calcular el rango.</small>
           </aside>
@@ -274,7 +295,11 @@
     <div class="container footer-layout">
       <img src="logo-agp.svg" alt="AGP Control Integral" class="footer-logo">
       <p>Inventarios físicos, activos y control operativo.</p>
-      <span>© <span id="year"></span> AGP Control Integral · Versión 2.1</span>
+      <div class="footer-access">
+        <a href="login.html">Portal AGP</a>
+        <small>Acceso para clientes y colaboradores</small>
+      </div>
+      <span>© <span id="year"></span> AGP Control Integral · Versión 2.2</span>
     </div>
   </footer>
 

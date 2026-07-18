@@ -1,0 +1,4 @@
+const DEMO_USER={email:"admin@agp.pe",password:"AGP2026",name:"Administrador AGP",role:"admin"};
+const form=document.getElementById("loginForm");
+if(sessionStorage.getItem("agp_session")){location.replace("admin.html");}
+form.addEventListener("submit",e=>{e.preventDefault();const email=document.getElementById("email").value.trim().toLowerCase();const password=document.getElementById("password").value;const error=document.getElementById("loginError");if(email===DEMO_USER.email&&password===DEMO_USER.password){sessionStorage.setItem("agp_session",JSON.stringify({email:DEMO_USER.email,name:DEMO_USER.name,role:DEMO_USER.role,loginAt:Date.now()}));location.replace("admin.html");return;}error.textContent="Correo o contraseña incorrectos.";});

@@ -14,3 +14,12 @@ Edita `AGP_WHATSAPP` en `app.js`.
 
 ## Firebase
 Esta versión funciona sin configuración y guarda datos en el navegador. La siguiente etapa para producción multiusuario es sustituir el adaptador localStorage por Firebase Auth/Firestore, manteniendo el motor y las interfaces.
+
+
+## Acceso local protegido
+- URL: `login.html`
+- Usuario demo: `admin@agp.pe`
+- Contraseña demo: `AGP2026`
+- El panel `admin.html` redirige al login cuando no existe una sesión activa.
+
+> Para producción, reemplazar este acceso local por Firebase Authentication.

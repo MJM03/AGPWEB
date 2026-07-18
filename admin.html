@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="stylesheet" href="admin.css" />
 </head>
-<body>
+<body><script>if(!sessionStorage.getItem("agp_session")){location.replace("login.html");}</script>
   <div id="app">
     <aside class="sidebar" id="sidebar">
       <div class="brand">
@@ -21,7 +21,7 @@
       </div>
       <nav id="nav"></nav>
       <div class="sidebar-foot">
-        <button class="ghost-btn" data-action="backup">Respaldo</button>
+        <button class="ghost-btn" data-action="backup">Respaldo</button><button class="ghost-btn" id="logoutBtn">Cerrar sesión</button>
         <div class="version">v3.0.0 · Local Pro</div>
       </div>
     </aside>
@@ -56,6 +56,6 @@
 
   <input type="file" id="importFile" accept="application/json" hidden />
   <div class="toast" id="toast"></div>
-  <script src="pricing-engine.js"></script><script src="admin.js"></script>
+  <script src="pricing-engine.js"></script><script src="admin.js"></script><script>document.getElementById("logoutBtn").addEventListener("click",()=>{sessionStorage.removeItem("agp_session");location.replace("login.html")});</script>
 </body>
 </html>
