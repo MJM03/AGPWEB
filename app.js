@@ -126,3 +126,7 @@ $("#floatingWhatsapp")?.addEventListener("click", event => {
 });
 
 if ($("#year")) $("#year").textContent = new Date().getFullYear();
+
+if (!location.hash) {
+  requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
+}

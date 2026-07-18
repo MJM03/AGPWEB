@@ -161,3 +161,14 @@ La nueva navegación:
 - El panel lateral ya responde desde el primer toque.
 - Cierre determinista de sidebar, modal y drawer.
 - Sustitución de acentos verdes residuales por naranja corporativo.
+
+
+## AGP Platform v3.0.2 — Scroll y animaciones
+- La web fuerza carga inicial en la parte superior cuando no existe un ancla.
+- Se desactiva la restauración automática de scroll del navegador.
+- Animaciones de entrada en hero, títulos, tarjetas, pasos y formularios.
+- Revelado progresivo por scroll con IntersectionObserver.
+- Botón flotante de WhatsApp con entrada, pulso y reacción al hover.
+- Microinteracciones en botones, tarjetas e iconos.
+- Respeto automático de `prefers-reduced-motion`.
+- Animaciones suaves adicionales en el ERP.

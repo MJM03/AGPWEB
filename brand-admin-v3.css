@@ -217,3 +217,38 @@ html[data-theme="dark"] .kpi .delta,
 html[data-theme="dark"] .pipeline-row strong{
   color:#FFB45C!important;
 }
+
+
+/* AGP Platform 3.0.2 — microinteractions */
+.kpi-card,.panel,.table-card,.form-card,.card{
+  transition:transform 220ms cubic-bezier(.22,.8,.22,1),box-shadow 220ms ease,border-color 220ms ease;
+}
+.kpi-card:hover,.panel:hover,.table-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 42px rgba(13,27,42,.10)!important;
+}
+.nav-item{
+  transition:background 180ms ease,border-color 180ms ease,transform 180ms ease,color 180ms ease;
+}
+.nav-item:hover{transform:translateX(3px)}
+.primary-btn,.secondary-btn,.icon-btn,.mini-btn{
+  transition:transform 160ms ease,box-shadow 160ms ease,filter 160ms ease;
+}
+.primary-btn:hover,.secondary-btn:hover,.icon-btn:hover,.mini-btn:hover{
+  transform:translateY(-2px);
+}
+.primary-btn:active,.secondary-btn:active,.icon-btn:active,.mini-btn:active{
+  transform:scale(.98);
+}
+.modal.show .modal-card,.drawer.show{
+  animation:agpPanelIn 340ms cubic-bezier(.22,.8,.22,1) both;
+}
+@keyframes agpPanelIn{
+  from{opacity:0;transform:translateY(18px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .kpi-card,.panel,.table-card,.form-card,.card,.nav-item,.primary-btn,.secondary-btn,.icon-btn,.mini-btn{
+    transition:none!important;
+  }
+}

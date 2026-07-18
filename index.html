@@ -172,9 +172,27 @@
   </style>
 
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="brand-v3.css?v=3.0">
+  <link rel="stylesheet" href="brand-v3.css?v=3.0.2">
+  <link rel="stylesheet" href="motion-v3.css?v=3.0.2">
+
+  <script>
+    (() => {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      const forceTop = () => {
+        if (!location.hash) window.scrollTo(0, 0);
+      };
+      forceTop();
+      document.addEventListener("DOMContentLoaded", forceTop, { once:true });
+      window.addEventListener("pageshow", event => {
+        if (!location.hash && (event.persisted || window.scrollY > 0)) {
+          requestAnimationFrame(() => window.scrollTo(0, 0));
+        }
+      });
+    })();
+  </script>
+
 </head>
-<body>
+<body class="agp-loading">
   <header class="site-header" id="inicio">
     <div class="container nav-wrap">
       <a class="brand" href="#inicio" aria-label="AGP Control Integral">
@@ -485,7 +503,7 @@
         <a href="login.html">Portal AGP</a>
         <small>Acceso para clientes y colaboradores</small>
       </div>
-      <span>© <span id="year"></span> AGP Control Integral · AGP Platform 3.0 · Sprint 1</span>
+      <span>© <span id="year"></span> AGP Control Integral · AGP Platform 3.0.2 · Motion</span>
     </div>
   </footer>
 
@@ -556,6 +574,66 @@
 
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", init, {once:true});
+    } else {
+      init();
+    }
+  })();
+  </script>
+
+
+  <script id="agp-motion-controller">
+  (() => {
+    "use strict";
+
+    const init = () => {
+      document.body.classList.remove("agp-loading");
+      document.body.classList.add("agp-ready");
+
+      const candidates = [
+        ".hero-copy > *",
+        ".hero-card",
+        ".section-heading",
+        ".service-card",
+        ".step",
+        ".diagnosis-form",
+        ".diagnosis-benefits",
+        ".contact-box",
+        ".footer-layout > *"
+      ];
+
+      const elements = document.querySelectorAll(candidates.join(","));
+      elements.forEach((el, index) => {
+        el.classList.add("reveal-on-scroll");
+        el.style.setProperty("--reveal-delay", `${Math.min(index % 6, 5) * 70}ms`);
+      });
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.13, rootMargin: "0px 0px -6% 0px" });
+
+      elements.forEach(el => observer.observe(el));
+
+      const whatsapp = document.getElementById("floatingWhatsapp");
+      if (whatsapp) {
+        setTimeout(() => whatsapp.classList.add("whatsapp-entered"), 700);
+        whatsapp.addEventListener("mouseenter", () => whatsapp.classList.add("is-hovered"));
+        whatsapp.addEventListener("mouseleave", () => whatsapp.classList.remove("is-hovered"));
+      }
+
+      document.querySelectorAll(".btn, .service-card, .step, .benefit-list > div").forEach(el => {
+        el.addEventListener("pointerdown", () => el.classList.add("is-pressed"));
+        ["pointerup","pointerleave","pointercancel"].forEach(evt => {
+          el.addEventListener(evt, () => el.classList.remove("is-pressed"));
+        });
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init, { once:true });
     } else {
       init();
     }
