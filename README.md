@@ -1,4 +1,4 @@
-# AGP Platform v2.0 Firebase
+# AGP Platform v2.0.2.1 Firebase
 
 Versión conectada al proyecto Firebase `agp-platform`.
 
@@ -79,3 +79,17 @@ Los diagnósticos públicos se reciben temporalmente en:
 `publicLeads`
 
 Esta arquitectura es adecuada para la etapa inicial. Cuando el volumen de información crezca, la siguiente evolución será separar clientes, cotizaciones, proyectos y movimientos en colecciones individuales para evitar el límite de tamaño de un documento de Firestore.
+
+
+## Corrección v2.0.2
+Se corrigió el error de sintaxis de `firestore.rules` provocado por el acceso mediante `.service`, ya que `service` es una palabra reservada del lenguaje de reglas. La nueva versión valida la presencia de ese campo usando `keys().hasAll()` y mantiene comprobaciones de tipo y longitud para los datos públicos.
+
+
+## Mobile Experience v2.0.2
+- Menú móvil convertido en panel sólido a pantalla completa.
+- Corrección definitiva del solapamiento entre navegación y hero.
+- Header compacto con botón animado abrir/cerrar.
+- Cierre por enlace, toque exterior, tecla Escape y cambio a escritorio.
+- Hero, botones, indicadores, formularios y tarjetas optimizados para iPhone y Android.
+- Compatibilidad con áreas seguras de iOS.
+- Versionado CSS/JS para evitar caché antigua en GitHub Pages.

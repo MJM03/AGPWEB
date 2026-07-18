@@ -21,17 +21,26 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // La landing puede crear solicitudes, pero no leerlas ni editarlas.
+    // La web pública puede crear solicitudes, pero no leerlas.
     match /publicLeads/{leadId} {
       allow create: if
+        request.resource.data.keys().hasAll([
+          'company',
+          'contact',
+          'phone',
+          'service'
+        ]) &&
         request.resource.data.company is string &&
         request.resource.data.contact is string &&
         request.resource.data.phone is string &&
-        request.resource.data.service is string;
+        request.resource.data.company.size() > 0 &&
+        request.resource.data.contact.size() > 0 &&
+        request.resource.data.phone.size() >= 6;
 
       allow read, update, delete: if signedIn();
     }
 
+    // Todo lo demás queda bloqueado.
     match /{document=**} {
       allow read, write: if false;
     }

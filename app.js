@@ -1,5 +1,5 @@
 import { createPublicLead } from "./firebase-service.js";
-const AGP_WHATSAPP = "51992898514"; // Reemplazar por el número real de AGP.
+const AGP_WHATSAPP = "51999999999"; // Reemplazar por el número real de AGP.
 const $ = (selector) => document.querySelector(selector);
 
 function openWhatsapp(message) {
@@ -127,15 +127,32 @@ $("#floatingWhatsapp")?.addEventListener("click", event => {
 
 const menuToggle = $("#menuToggle");
 const mainNav = $("#mainNav");
-menuToggle?.addEventListener("click", () => {
-  const open = mainNav.classList.toggle("open");
+
+function setMenu(open) {
+  mainNav?.classList.toggle("open", open);
   document.body.classList.toggle("menu-open", open);
-  menuToggle.setAttribute("aria-expanded", String(open));
+  menuToggle?.setAttribute("aria-expanded", String(open));
+  menuToggle?.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+}
+
+menuToggle?.addEventListener("click", event => {
+  event.stopPropagation();
+  setMenu(!mainNav.classList.contains("open"));
 });
-mainNav?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
-  mainNav.classList.remove("open");
-  document.body.classList.remove("menu-open");
-  menuToggle.setAttribute("aria-expanded", "false");
-}));
+
+mainNav?.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setMenu(false)));
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") setMenu(false);
+});
+
+document.addEventListener("click", event => {
+  if (!mainNav?.classList.contains("open")) return;
+  if (!mainNav.contains(event.target) && !menuToggle?.contains(event.target)) setMenu(false);
+});
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900) setMenu(false);
+});
 
 if ($("#year")) $("#year").textContent = new Date().getFullYear();
