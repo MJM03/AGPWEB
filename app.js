@@ -1,4 +1,4 @@
-const AGP_WHATSAPP = "51992898514"; // Reemplazar por el número real de AGP.
+const AGP_WHATSAPP = "51999999999"; // Reemplazar por el número real de AGP.
 const DB_KEY = "agp-erp-v3-data";
 
 const $ = (selector) => document.querySelector(selector);
@@ -47,7 +47,7 @@ function diagnosisData() {
 
 function diagnosisSummary(d) {
   const business = {
-    farmacia: "Farmacia de barrio", bodega: "Bodega", minimarket: "Minimarket",
+    farmacia: "Farmacia independiente", bodega: "Bodega", minimarket: "Minimarket",
     ferreteria: "Ferretería", retail: "Tienda / retail", almacen: "Almacén", otro: "Otro negocio"
   }[d.businessType];
   return `Hola, AGP. Quisiera una evaluación gratuita para mi inventario.
@@ -105,7 +105,7 @@ $("#diagnosisForm")?.addEventListener("submit", event => {
       ...d,
       complexity,
       recommendedMode: ["farmacia", "bodega"].includes(d.businessType) && d.quantity <= 3000
-        ? "Barrio Express"
+        ? "Plan Esencial"
         : "Lanzamiento"
     }
   });

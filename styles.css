@@ -141,3 +141,17 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-s
 .neighborhood-note{margin:22px 0;padding:18px;border-radius:16px;background:#fff8e8;border:1px solid #f0d899}.neighborhood-note strong{color:#73591e}.neighborhood-note p{font-size:12px;color:#75643f;margin:6px 0 0}
 @media(max-width:900px){.diagnosis-shell{grid-template-columns:1fr}.diagnosis-benefits{border-top:1px solid var(--line)}}
 @media(max-width:640px){.diagnosis-form,.diagnosis-benefits{padding:22px}.diagnosis-options{grid-template-columns:1fr}.diagnosis-progress small{display:none}}
+
+/* Correcciones visuales v1.7 */
+.diagnosis-form input[type="text"],.diagnosis-form input[type="email"],.diagnosis-form input[type="tel"],.diagnosis-form input[type="number"],.diagnosis-form select,.diagnosis-form textarea{width:100%;min-width:0;height:52px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 14px;color:var(--ink);outline:none;appearance:none}
+.diagnosis-form textarea{height:auto;padding-top:12px}
+.diagnosis-form input:focus,.diagnosis-form select:focus,.diagnosis-form textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(43,183,169,.12)}
+.diagnosis-form .fields-grid{align-items:end}
+.diagnosis-form .field,.diagnosis-form label{min-width:0}
+.contact-data{padding-bottom:24px}
+.diagnosis-submit{min-height:56px;border-radius:15px;padding-inline:22px}
+.diagnosis-privacy{line-height:1.45;padding:0 8px}
+.hero-card{transform:none;border:1px solid rgba(255,255,255,.28)}
+.hero-card-footer{align-items:center}.hero-card-footer a{white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.hero-card-footer a::after{content:"→"}.hero-card-footer a{font-size:0}.hero-card-footer a::before{content:"Comenzar";font-size:12px}
+@media(max-width:640px){.contact-data .fields-grid{gap:13px}.diagnosis-submit{min-height:58px}.hero-card-footer{flex-direction:column;align-items:flex-start}}

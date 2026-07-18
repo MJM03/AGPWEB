@@ -25,14 +25,14 @@ Esta versión funciona sin configuración y guarda datos en el navegador. La sig
 > Para producción, reemplazar este acceso local por Firebase Authentication.
 
 
-## Novedades v1.6
+## Novedades v1.7
 - Formulario público de propuesta formal rediseñado y reordenado.
 - Cálculo de tiempo teórico a 1 producto por segundo por operario.
 - Cálculo operativo ajustable por eficiencia y horas por jornada.
 - Horas y jornadas estimadas visibles y guardadas en las cotizaciones del ERP.
 
 
-## Corrección v1.6
+## Corrección v1.7
 - Recálculo inmediato y robusto del resultado comercial.
 - Lectura directa de todos los campos del cotizador.
 - Validación entre volumen, operarios y jornadas.
@@ -41,7 +41,7 @@ Esta versión funciona sin configuración y guarda datos en el navegador. La sig
 - Versionado de scripts para evitar que GitHub Pages o el navegador usen JavaScript anterior en caché.
 
 
-## Estrategia comercial v1.6
+## Estrategia comercial v1.7
 El cotizador ahora genera cuatro escenarios:
 - Captación: 10% de margen bruto.
 - Inicio competitivo: 18% (recomendado para AGP en etapa inicial).
@@ -51,7 +51,7 @@ El cotizador ahora genera cuatro escenarios:
 Estos porcentajes son editables y funcionan sobre el costo operativo calculado. El sistema no permite bajar del margen mínimo configurado ni vender por debajo del costo. Las bandas son una política interna inicial, no un tarifario comprobado del mercado, porque los competidores consultados cotizan cada operación según alcance y no publican precios comparables.
 
 
-## PDF profesional v1.6
+## PDF profesional v1.7
 - Plantillas Premium, Corporativa y Comercial.
 - Portada personalizada por cliente.
 - Resumen ejecutivo, alcance, entregables y metodología.
@@ -60,7 +60,7 @@ Estos porcentajes son editables y funcionan sobre el costo operativo calculado. 
 - Formato A4 listo para guardar como PDF desde el navegador.
 
 
-## Integración comercial v1.6
+## Integración comercial v1.7
 
 ### Web pública
 - Se eliminó el cotizador y cualquier precio automático.
@@ -76,3 +76,12 @@ Estos porcentajes son editables y funcionan sobre el costo operativo calculado. 
 - Costeo por horas para operaciones pequeñas, evitando cobrar automáticamente una jornada completa.
 - Reducción automática de costos accesorios en propuestas pequeñas.
 - Nunca vende por debajo del costo calculado.
+
+## Correcciones v1.7
+- Inputs del diagnóstico al 100% del ancho disponible.
+- Mejor jerarquía y espaciado en el bloque de contacto.
+- Tarjeta principal sin inclinación y llamada a la acción corregida.
+- “Negocio de barrio” reemplazado por “pequeño comercio” y “farmacia independiente”.
+- “Barrio Express” renombrado a “Plan Esencial”.
+- Botón Eliminar definitivo en clientes, leads, cotizaciones, proyectos, tareas, incidencias, personal, finanzas, facturas, pagos, proveedores, servicios y documentos.
+- Se conserva la acción Anular para mantener trazabilidad cuando corresponda.

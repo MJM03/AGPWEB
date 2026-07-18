@@ -37,3 +37,6 @@
 .scenario-card[data-price-strategy="neighborhood"]{border-color:rgba(61,214,183,.35);background:rgba(61,214,183,.08)}
 @media(max-width:1000px){.pricing-scenarios{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.pricing-scenarios{grid-template-columns:1fr}}
+
+.mini-btn.danger{color:#b42318;border-color:#f1b8b4;background:#fff7f6}.mini-btn.danger:hover{background:#feeceb;border-color:#e99089}
+.row-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
