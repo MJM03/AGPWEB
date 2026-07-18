@@ -1,4 +1,4 @@
-const AGP_WHATSAPP = "51999999999"; // Reemplazar por el número real, sin + ni espacios.
+const AGP_WHATSAPP = "51992898514"; // Reemplazar por el número real, sin + ni espacios.
 
 const serviceLabels = {
   inventory: "Inventario de mercadería",
