@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='4.0.0', STORAGE='agp-erp-v3-data', SETTINGS='agp-erp-v3-settings';
+  const VERSION='5.0.0', STORAGE='agp-erp-v3-data', SETTINGS='agp-erp-v3-settings';
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const money=n=>new Intl.NumberFormat('es-PE',{style:'currency',currency:'PEN'}).format(Number(n||0));
   const formatDuration=seconds=>{seconds=Math.max(0,Number(seconds||0));const h=Math.floor(seconds/3600),m=Math.round((seconds%3600)/60);if(h===0)return `${Math.max(1,m)} min`;if(m===60)return `${h+1} h`;return m?`${h} h ${m} min`:`${h} h`;};
@@ -289,9 +289,9 @@
     const logo=new URL('logo-agp.svg',location.href).href;
     const corporate=template==='corporate', commercial=template==='commercial';
     const colors=corporate
-      ?['#10233f','#b7923d','#f3f5f8','#0c1b31']
-      :commercial?['#113f4c','#22a897','#effaf8','#0b3039']
-      :['#0b2037','#d9a52f','#f4f7f9','#071a2e'];
+      ?['#0D1B2A','#FF8A00','#F4F6F8','#08131F']
+      :commercial?['#153A5C','#FF8A00','#F5F6F8','#0D1B2A']
+      :['#0D1B2A','#FF8A00','#F4F6F8','#08131F'];
     const safe=(v,f='—')=>esc(v===undefined||v===null||v===''?f:v);
     const num=(v,f=0)=>Number.isFinite(Number(v))?Number(v):f;
     const service=safe(s.name||q.service,'Servicio profesional');

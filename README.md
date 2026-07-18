@@ -136,3 +136,18 @@ La nueva navegación:
 - conserva y restaura la posición de scroll;
 - se cierra por botón, enlace, Escape o cambio a escritorio;
 - no duplica el logo dentro del contenido de la página.
+
+
+# Sprint 1 — Rebranding AGP Platform 3.0
+
+- Nuevo logo oficial extraído y optimizado desde el material proporcionado.
+- Logo horizontal, isotipo, favicon, iconos PWA y Apple Touch Icon.
+- Paleta oficial: #0D1B2A, #153A5C, #FF8A00, #64748B y #E6E7EB.
+- Rebranding completo de la landing, menú móvil, formularios y CTA.
+- Rediseño visual del login.
+- Rebranding integral del ERP: sidebar, botones, tarjetas, formularios, estados y cotizador.
+- Actualización de colores en las propuestas PDF.
+- Datos oficiales de contacto:
+  - agpcontrolintegral@gmail.com
+  - +51 992 898 514
+- Firebase y las funcionalidades existentes se mantienen.
