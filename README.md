@@ -1,4 +1,4 @@
-# AGP Platform v2.0.3.1 Firebase
+# AGP Platform v2.0.4.1 Firebase
 
 Versión conectada al proyecto Firebase `agp-platform`.
 
@@ -81,11 +81,11 @@ Los diagnósticos públicos se reciben temporalmente en:
 Esta arquitectura es adecuada para la etapa inicial. Cuando el volumen de información crezca, la siguiente evolución será separar clientes, cotizaciones, proyectos y movimientos en colecciones individuales para evitar el límite de tamaño de un documento de Firestore.
 
 
-## Corrección v2.0.3
+## Corrección v2.0.4
 Se corrigió el error de sintaxis de `firestore.rules` provocado por el acceso mediante `.service`, ya que `service` es una palabra reservada del lenguaje de reglas. La nueva versión valida la presencia de ese campo usando `keys().hasAll()` y mantiene comprobaciones de tipo y longitud para los datos públicos.
 
 
-## Mobile Experience v2.0.3
+## Mobile Experience v2.0.4
 - Menú móvil convertido en panel sólido a pantalla completa.
 - Corrección definitiva del solapamiento entre navegación y hero.
 - Header compacto con botón animado abrir/cerrar.
@@ -95,7 +95,7 @@ Se corrigió el error de sintaxis de `firestore.rules` provocado por el acceso m
 - Versionado CSS/JS para evitar caché antigua en GitHub Pages.
 
 
-## Corrección crítica del menú v2.0.3
+## Corrección crítica del menú v2.0.4
 
 El menú móvil fue separado de `app.js` y de las importaciones de Firebase.
 
@@ -108,3 +108,17 @@ Ahora:
 - Incluye cierre por enlace, toque exterior, tecla Escape, cambio de tamaño y restauración de página en iOS.
 - Se añadieron `aria-controls`, `aria-hidden` y foco accesible.
 - Los scripts usan una versión nueva para evitar caché de GitHub Pages y Safari.
+
+
+## Menú móvil Hard Fix v2.0.4
+
+Se reemplazó la navegación móvil por un componente completamente separado del menú de escritorio.
+
+- El menú móvil ya no reutiliza `.nav`.
+- CSS y JavaScript críticos están incrustados directamente en `index.html`.
+- No depende de Firebase, `app.js`, archivos externos ni service workers.
+- Se desregistran service workers anteriores y se eliminan cachés antiguas de AGP.
+- Usa un drawer lateral con backdrop, botón cerrar y bloqueo del scroll.
+- El menú de escritorio se oculta forzosamente en móvil mediante `!important`.
+
+Esta versión soluciona tanto la falta de respuesta del botón como los enlaces superpuestos sobre el hero.

@@ -8,6 +8,33 @@
   <title>AGP Control Integral | Inventarios y control operativo</title>
   <link rel="icon" href="logo-agp.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css?v=2.0.2">
+
+  <style id="agp-mobile-menu-critical">
+    .mobile-menu-drawer,.mobile-menu-backdrop{display:none}
+    @media(max-width:900px){
+      .desktop-nav{display:none!important}
+      .site-header{height:72px!important}
+      .nav-wrap{height:72px!important}
+      .menu-toggle{display:grid!important;place-content:center;gap:5px;width:46px;height:46px;padding:0;border:1px solid rgba(11,31,51,.12);border-radius:14px;background:#fff;position:relative;z-index:5002}
+      .menu-toggle span{display:block!important;width:23px;height:2px;margin:0!important;background:#0b1f33;border-radius:3px}
+      .mobile-menu-backdrop{display:block;position:fixed;inset:0;z-index:4998;background:rgba(4,18,31,.58);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility .22s}
+      .mobile-menu-backdrop.is-open{opacity:1;visibility:visible;pointer-events:auto}
+      .mobile-menu-drawer{display:flex;position:fixed;z-index:4999;top:0;right:0;bottom:0;width:min(88vw,390px);padding:max(18px,env(safe-area-inset-top)) 18px max(22px,env(safe-area-inset-bottom));background:#f8fbfc;box-shadow:-24px 0 70px rgba(2,18,31,.24);flex-direction:column;transform:translateX(105%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility .28s;overflow-y:auto}
+      .mobile-menu-drawer.is-open{transform:translateX(0);visibility:visible}
+      .mobile-menu-head{display:flex;align-items:center;justify-content:space-between;padding:5px 2px 20px;border-bottom:1px solid #dce6eb}
+      .mobile-menu-head img{width:156px;height:48px;object-fit:contain;object-position:left}
+      #mobileMenuClose{width:44px;height:44px;border:0;border-radius:13px;background:#eaf1f4;color:#0b1f33;font-size:30px;line-height:1;cursor:pointer}
+      .mobile-menu-label{display:block;margin:24px 5px 12px;color:#758596;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}
+      .mobile-menu-links{display:grid;gap:10px}
+      .mobile-menu-links a{display:flex;align-items:center;justify-content:space-between;min-height:60px;padding:0 18px;border:1px solid #dce6eb;border-radius:16px;background:#fff;color:#0b1f33;font-size:17px;font-weight:800;box-shadow:0 8px 24px rgba(11,31,51,.05)}
+      .mobile-menu-links a b{color:#2bb7a9;font-size:20px}
+      .mobile-menu-footer{margin-top:auto;padding:24px 4px 4px;border-top:1px solid #dce6eb;display:grid;gap:5px}
+      .mobile-menu-footer a{color:#0b675e;font-weight:900}
+      .mobile-menu-footer small{color:#758596}
+      body.mobile-drawer-open{overflow:hidden!important;touch-action:none}
+    }
+  </style>
+
 </head>
 <body>
   <header class="site-header" id="inicio">
@@ -16,16 +43,35 @@
         <img src="logo-agp.svg" alt="Logo AGP Control Integral" class="brand-logo">
       </a>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="nav" id="mainNav" aria-hidden="true">
+      <nav class="nav desktop-nav" id="mainNav">
         <a href="#servicios">Servicios</a>
         <a href="#metodologia">Cómo trabajamos</a>
         <a href="#diagnostico">Diagnóstico gratuito</a>
         <a href="#contacto">Contacto</a>
       </nav>
+
+      <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" hidden></div>
+      <aside class="mobile-menu-drawer" id="mobileMenu" aria-hidden="true">
+        <div class="mobile-menu-head">
+          <img src="logo-agp.svg" alt="AGP Control Integral">
+          <button type="button" id="mobileMenuClose" aria-label="Cerrar menú">×</button>
+        </div>
+        <span class="mobile-menu-label">Navegación</span>
+        <nav class="mobile-menu-links">
+          <a href="#servicios"><span>Servicios</span><b>→</b></a>
+          <a href="#metodologia"><span>Cómo trabajamos</span><b>→</b></a>
+          <a href="#diagnostico"><span>Diagnóstico gratuito</span><b>→</b></a>
+          <a href="#contacto"><span>Contacto</span><b>→</b></a>
+        </nav>
+        <div class="mobile-menu-footer">
+          <a href="login.html">Ingresar a Portal AGP</a>
+          <small>Acceso para clientes y colaboradores</small>
+        </div>
+      </aside>
     </div>
   </header>
 
@@ -296,13 +342,66 @@
         <a href="login.html">Portal AGP</a>
         <small>Acceso para clientes y colaboradores</small>
       </div>
-      <span>© <span id="year"></span> AGP Control Integral · Versión 3.2 Mobile Firebase</span>
+      <span>© <span id="year"></span> AGP Control Integral · Versión 3.3 Mobile Firebase</span>
     </div>
   </footer>
 
   <div class="toast" id="toast"></div>
-  <script src="mobile-menu.js?v=2.0.3"></script>
   <script src="pricing-engine.js?v=2.0.3"></script>
   <script type="module" src="app.js?v=2.0.3"></script>
+
+  <script>
+  (() => {
+    "use strict";
+    const ready = () => {
+      const openBtn = document.getElementById("menuToggle");
+      const closeBtn = document.getElementById("mobileMenuClose");
+      const drawer = document.getElementById("mobileMenu");
+      const backdrop = document.getElementById("mobileMenuBackdrop");
+      if (!openBtn || !closeBtn || !drawer || !backdrop) return;
+
+      const setOpen = (open) => {
+        drawer.classList.toggle("is-open", open);
+        backdrop.classList.toggle("is-open", open);
+        backdrop.hidden = false;
+        drawer.setAttribute("aria-hidden", String(!open));
+        openBtn.setAttribute("aria-expanded", String(open));
+        document.body.classList.toggle("mobile-drawer-open", open);
+        if (!open) {
+          setTimeout(() => {
+            if (!backdrop.classList.contains("is-open")) backdrop.hidden = true;
+          }, 250);
+        }
+      };
+
+      openBtn.addEventListener("click", e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setOpen(true);
+      });
+      closeBtn.addEventListener("click", () => setOpen(false));
+      backdrop.addEventListener("click", () => setOpen(false));
+      drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") setOpen(false);
+      });
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) setOpen(false);
+      }, {passive:true});
+      window.addEventListener("pageshow", () => setOpen(false));
+
+      // Remove older service workers/caches that may keep obsolete public assets.
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(reg => reg.unregister())).catch(()=>{});
+      }
+      if ("caches" in window) {
+        caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith("agp-platform-")).map(k => caches.delete(k)))).catch(()=>{});
+      }
+    };
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ready, {once:true});
+    else ready();
+  })();
+  </script>
+
 </body>
 </html>

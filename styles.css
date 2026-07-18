@@ -416,3 +416,12 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-s
     touch-action:manipulation;
   }
 }
+
+/* v2.0.4 hard fix: desktop/mobile navigation are different elements */
+@media(max-width:900px){
+  #mainNav.desktop-nav{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+}
+@media(min-width:901px){
+  .mobile-menu-drawer,.mobile-menu-backdrop{display:none!important}
+  #mainNav.desktop-nav{display:flex!important}
+}
