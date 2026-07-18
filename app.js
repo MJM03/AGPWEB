@@ -1,5 +1,5 @@
 import { createPublicLead } from "./firebase-service.js";
-const AGP_WHATSAPP = "51999999999"; // Reemplazar por el número real de AGP.
+const AGP_WHATSAPP = "51992898514"; // Reemplazar por el número real de AGP.
 const $ = (selector) => document.querySelector(selector);
 
 function openWhatsapp(message) {
