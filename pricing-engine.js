@@ -22,7 +22,12 @@ function calculate(i,settings={},service={base:.12,min:950,marketMin:.10,marketM
  const operationalHours=theoreticalHours/operationalEfficiency;
  const workdayHours=Math.max(1,Number(i.workdayHours||8));
  const estimatedWorkdays=operationalHours/workdayHours;
- return {cost,subtotal,igv,total,unit,labor,equipment,direct,volume,factor:complexity*shift*urgency*sites,theoreticalSeconds,theoreticalHours,operationalHours,estimatedWorkdays,productivePeople,secondsPerProduct,operationalEfficiency,workdayHours};
+ const plannedDays=Math.max(1,n('days'));
+ const requiredOperators=Math.max(1,Math.ceil((n('quantity')*secondsPerProduct)/(operationalEfficiency*3600*workdayHours*plannedDays)));
+ const plannedCapacity=productivePeople*operationalEfficiency*3600*workdayHours*plannedDays/secondsPerProduct;
+ const capacityCoverage=Math.min(999,plannedCapacity/Math.max(1,n('quantity'))*100);
+ const planIsFeasible=productivePeople>=requiredOperators;
+ return {cost,subtotal,igv,total,unit,labor,equipment,direct,volume,factor:complexity*shift*urgency*sites,theoreticalSeconds,theoreticalHours,operationalHours,estimatedWorkdays,productivePeople,secondsPerProduct,operationalEfficiency,workdayHours,plannedDays,requiredOperators,plannedCapacity,capacityCoverage,planIsFeasible};
 }
 function inferPublic({quantity=3000,sites=1,shift='Diurno',complexity='Media',service='SER-001'}){
  const q=Number(quantity),days=Math.max(1,Math.ceil(q/8000)),operators=Math.max(2,Math.ceil(q/(3500*days))),supervisors=Math.max(1,Math.ceil(operators/8)),coordinators=sites>=4?1:0,pdas=operators+supervisors;
