@@ -1,4 +1,4 @@
-const AGP_WHATSAPP = "51992898514"; // Reemplazar por el número real, sin + ni espacios.
+const AGP_WHATSAPP = "51999999999"; // Reemplazar por el número real, sin + ni espacios.
 
 const serviceLabels = {
   inventory: "Inventario de mercadería",
@@ -47,40 +47,14 @@ function selected(name) {
 }
 
 function calculateEstimate() {
-  const service = selected("service") || "inventory";
-  const items = Math.max(100, Number(document.getElementById("items").value || 100));
-  const sites = Math.max(1, Number(document.getElementById("sites").value || 1));
-  const city = document.getElementById("city").value;
-  const schedule = document.getElementById("schedule").value;
-  const complexity = document.getElementById("complexity").value;
-  const plan = document.getElementById("plan").value;
-  const addons = [...document.querySelectorAll('[name="addon"]:checked')].map(x => x.value);
-
-  const serviceConfig = config[service];
-  const scaleDiscount = items >= 50000 ? 0.72 : items >= 20000 ? 0.79 : items >= 10000 ? 0.86 : items >= 5000 ? 0.92 : 1;
-  const siteFactor = 1 + ((sites - 1) * 0.13);
-
-  let subtotal = (serviceConfig.base + (items * serviceConfig.rate * scaleDiscount));
-  subtotal *= siteFactor;
-  subtotal *= multipliers.plan[plan];
-  subtotal *= multipliers.complexity[complexity];
-  subtotal *= multipliers.schedule[schedule];
-  subtotal *= multipliers.city[city];
-
-  addons.forEach(addon => {
-    subtotal += addonPrices[addon].fixed + (items * addonPrices[addon].rate);
-  });
-
-  const minimumByService = service === "inventory" ? 850 : service === "assets" ? 980 : 1250;
-  subtotal = Math.max(subtotal, minimumByService);
-
-  // Rango comercial: permite negociar sin convertir la estimación en compromiso contractual.
-  const low = Math.round((subtotal * 0.93) / 50) * 50;
-  const high = Math.round((subtotal * 1.13) / 50) * 50;
-  const perItem = low / items;
-
-  currentEstimate = { service, items, sites, city, schedule, complexity, plan, addons, low, high, perItem };
-  renderEstimate();
+  const serviceMap={inventory:'SER-001',audit:'SER-002',assets:'SER-003'};
+  const service=selected("service")||"inventory",items=Math.max(100,Number(document.getElementById("items").value||100)),sites=Math.max(1,Number(document.getElementById("sites").value||1));
+  const shiftMap={day:'Diurno',night:'Nocturno',sunday:'Nocturno',holiday:'Nocturno'},complexityMap={low:'Baja',medium:'Media',high:'Alta'};
+  const calc=window.AGPPricing.inferPublic({quantity:items,sites,shift:shiftMap[document.getElementById("schedule").value],complexity:complexityMap[document.getElementById("complexity").value],service:serviceMap[service]});
+  const plan=document.getElementById("plan").value,planFactor={essential:.90,professional:1,integral:1.18}[plan];
+  let subtotal=calc.subtotal*planFactor; const addons=[...document.querySelectorAll('[name="addon"]:checked')].map(x=>x.value); subtotal+=addons.length*180;
+  const low=Math.round((subtotal*.95)/50)*50,high=Math.round((subtotal*1.08)/50)*50;
+  currentEstimate={service,items,sites,city:document.getElementById("city").value,schedule:document.getElementById("schedule").value,complexity:document.getElementById("complexity").value,plan,addons,low,high,perItem:low/items,engine:calc}; renderEstimate();
 }
 
 function renderEstimate() {
@@ -181,3 +155,13 @@ mainNav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
 
 document.getElementById("year").textContent = new Date().getFullYear();
 calculateEstimate();
+
+
+document.getElementById("saveLead").addEventListener("click",()=>{
+ const company=document.getElementById("leadCompany").value.trim(),contact=document.getElementById("leadContact").value.trim(),phone=document.getElementById("leadPhone").value.trim(),email=document.getElementById("leadEmail").value.trim();
+ if(!company||!contact||!phone){toast("Completa empresa, contacto y celular");return;}
+ const key="agp-erp-v3-data";let db={};try{db=JSON.parse(localStorage.getItem(key)||"{}")}catch{};db.leads=Array.isArray(db.leads)?db.leads:[];
+ const id=`LEA-${String(Math.max(0,...db.leads.map(x=>Number(String(x.id||'').match(/\d+$/)?.[0]||0)))+1).padStart(6,'0')}`;
+ db.leads.unshift({id,date:new Date().toISOString().slice(0,10),company,contact,phone,email,service:{inventory:'SER-001',audit:'SER-002',assets:'SER-003'}[currentEstimate.service],origin:'AGPWeb',status:'Nuevo',owner:'Sin asignar',next:new Date().toISOString().slice(0,10),notes:`Estimación web: S/ ${currentEstimate.low.toFixed(0)} - S/ ${currentEstimate.high.toFixed(0)} | ${currentEstimate.items} ítems | ${currentEstimate.sites} sedes`,estimate:currentEstimate});
+ localStorage.setItem(key,JSON.stringify(db));toast("Solicitud registrada en AGP Platform");
+});
