@@ -151,3 +151,13 @@ La nueva navegación:
   - agpcontrolintegral@gmail.com
   - +51 992 898 514
 - Firebase y las funcionalidades existentes se mantienen.
+
+
+## Corrección de interfaz v3.0.1
+- Modo oscuro con contraste completo para títulos, KPIs, tablas, formularios, modales y tarjetas.
+- Variables oscuras compatibles con el nuevo design system azul–naranja.
+- Eliminación de textos negros sobre fondos oscuros.
+- Sidebar móvil elevado por encima del overlay.
+- El panel lateral ya responde desde el primer toque.
+- Cierre determinista de sidebar, modal y drawer.
+- Sustitución de acentos verdes residuales por naranja corporativo.

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='5.0.0', STORAGE='agp-erp-v3-data', SETTINGS='agp-erp-v3-settings';
+  const VERSION='5.0.1', STORAGE='agp-erp-v3-data', SETTINGS='agp-erp-v3-settings';
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const money=n=>new Intl.NumberFormat('es-PE',{style:'currency',currency:'PEN'}).format(Number(n||0));
   const formatDuration=seconds=>{seconds=Math.max(0,Number(seconds||0));const h=Math.floor(seconds/3600),m=Math.round((seconds%3600)/60);if(h===0)return `${Math.max(1,m)} min`;if(m===60)return `${h+1} h`;return m?`${h} h ${m} min`:`${h} h`;};
@@ -249,7 +249,12 @@
   function openForm(type,id){const c=configs[type],r=id?(db[type]||[]).find(x=>x.id===id):null;openModal(`${r?'Editar':'Nuevo'} ${c.title}`,r?'Actualiza los datos del registro':'Completa los campos obligatorios',`<form id="crudForm"><div class="form-grid">${c.fields.map(fieldHtml).join('')}</div><div class="form-actions"><button type="button" class="secondary-btn" data-action="close">Cancelar</button><button class="primary-btn">Guardar</button></div></form>`);if(r)for(const [k,v] of Object.entries(r)){const el=$(`[name="${k}"]`);if(el)el.value=v}$('#crudForm').onsubmit=e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target));for(const [k,v] of Object.entries(data))if(['number','amount','rate','probability','progress','costPlan','costReal','incomePlan','incomeReal','subtotal','igv','total'].includes(k))data[k]=Number(v);if(r)Object.assign(r,data,{updated:new Date().toISOString()});else{data.id=uid(c.prefix,db[type]);data.created=today();db[type].push(data)}closePanels();save(`${c.title} guardado`)};}
   function openModal(title,sub,html){$('#modalTitle').textContent=title;$('#modalSubtitle').textContent=sub||'';$('#modalBody').innerHTML=html;$('#modal').classList.add('show');$('#overlay').classList.add('show')}
   function openDrawer(type,id){const r=(db[type]||[]).find(x=>x.id===id);if(!r)return;$('#drawerTitle').textContent=r.id||r.name||'Detalle';$('#drawerBody').innerHTML=`<div class="detail-grid">${Object.entries(r).filter(([,v])=>typeof v!=='object').map(([k,v])=>`<div class="detail-item"><span>${k.replace(/([A-Z])/g,' $1')}</span><strong>${displayValue(k,v)}</strong></div>`).join('')}</div>${type==='quotes'?`<div class="form-actions"><button class="secondary-btn" data-action="pdfOptions" data-id="${r.id}">Generar PDF</button><button class="primary-btn" data-action="quoteProject" data-id="${r.id}">Convertir en proyecto</button><button class="danger-btn" data-action="delete" data-type="${type}" data-id="${r.id}">Eliminar</button></div>`:`<div class="form-actions"><button class="danger-btn" data-action="delete" data-type="${type}" data-id="${r.id}">Eliminar registro</button></div>`}`;$('#drawer').classList.add('show');$('#overlay').classList.add('show')}
-  function closePanels(){$('#modal').classList.remove('show');$('#drawer').classList.remove('show');$('#overlay').classList.remove('show')}
+  function closePanels(){
+    $('#modal').classList.remove('show');
+    $('#drawer').classList.remove('show');
+    $('#sidebar').classList.remove('show');
+    $('#overlay').classList.remove('show');
+  }
   function archive(type,id){const r=db[type].find(x=>x.id===id);if(!r)return;if(confirm('¿Anular o archivar este registro? Se conservará para trazabilidad.')){r.status='Anulado';r.updated=new Date().toISOString();save('Registro anulado')}}
   function deleteRecord(type,id){
     const collection=db[type];
@@ -421,7 +426,15 @@
   document.addEventListener('click',e=>{const b=e.target.closest('[data-view],[data-action]');if(!b)return;if(b.dataset.view)return setView(b.dataset.view);const a=b.dataset.action,t=b.dataset.type,id=b.dataset.id;if(a==='new')openForm(t);if(a==='edit')openForm(t,id);if(a==='view')openDrawer(t,id);if(a==='archive')archive(t,id);if(a==='delete')deleteRecord(t,id);if(a==='pdfOptions')pdfOptions(id);if(a==='pdfGenerate')printQuote(id,b.dataset.template||'premium');if(a==='quoteProject')quoteToProject(id);if(a==='close')closePanels();if(a==='backup')backup();if(a==='exportCsv')exportCsv(t);if(a==='serviceNew')serviceForm();if(a==='serviceEdit')serviceForm(id);if(a==='backupExport')download(`AGP_ERP_respaldo_${today()}.json`,new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));if(a==='backupImport')$('#importFile').click();if(a==='resetData'&&confirm('¿Restablecer todos los datos?')){db=structuredClone(initial);save('Datos restablecidos');closePanels()}if(a==='quoteReset')renderQuoteBuilder()});
   $('#importFile').onchange=async e=>{try{db=JSON.parse(await e.target.files[0].text());save('Respaldo importado');closePanels()}catch{toast('Archivo no válido')}};
   $('#quickAddBtn').onclick=()=>view==='quotes'?$('#quoteForm')?.scrollIntoView():openForm(view==='dashboard'?'clients':view==='quoteHistory'?'quotes':view==='finance'?'movements':view);
-  $('#menuBtn').onclick=()=>{$('#sidebar').classList.toggle('show');$('#overlay').classList.toggle('show')};$('#closeModal').onclick=closePanels;$('#closeDrawer').onclick=closePanels;$('#overlay').onclick=closePanels;
+  $('#menuBtn').onclick=()=>{
+    const opening=!$('#sidebar').classList.contains('show');
+    closePanels();
+    $('#sidebar').classList.toggle('show',opening);
+    $('#overlay').classList.toggle('show',opening);
+  };
+  $('#closeModal').onclick=closePanels;
+  $('#closeDrawer').onclick=closePanels;
+  $('#overlay').onclick=closePanels;
   $('#themeBtn').onclick=()=>{const dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';localStorage.setItem(SETTINGS,dark?'light':'dark')};document.documentElement.dataset.theme=localStorage.getItem(SETTINGS)||'light';
   
   if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));

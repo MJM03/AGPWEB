@@ -23,10 +23,10 @@ window.AGPCloud = {
 document.documentElement.dataset.firebaseReady = "true";
 
 const pricing = document.createElement("script");
-pricing.src = "pricing-engine.js?v=2.0";
+pricing.src = "pricing-engine.js?v=3.0.1";
 pricing.onload = () => {
   const admin = document.createElement("script");
-  admin.src = "admin.js?v=2.0";
+  admin.src = "admin.js?v=3.0.1";
   document.body.appendChild(admin);
 };
 document.body.appendChild(pricing);
