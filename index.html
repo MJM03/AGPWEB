@@ -23,7 +23,7 @@
       <nav class="nav" id="mainNav">
         <a href="#servicios">Servicios</a>
         <a href="#metodologia">Cómo trabajamos</a>
-        <a href="#estimador">Estimador</a>
+        <a href="#diagnostico">Diagnóstico gratuito</a>
         <a href="#contacto">Contacto</a>
       </nav>
     </div>
@@ -41,7 +41,7 @@
             Desde una sede hasta operaciones multisede en Lima y todo el Perú.
           </p>
           <div class="hero-actions">
-            <a href="#estimador" class="btn btn-primary">Calcular estimación</a>
+            <a href="#diagnostico" class="btn btn-primary">Solicitar diagnóstico gratuito</a>
             <a href="#contacto" class="btn btn-secondary">Hablar con un asesor</a>
           </div>
           <div class="trust-row">
@@ -69,8 +69,8 @@
             <strong>Base consolidada + informe</strong>
           </div>
           <div class="hero-card-footer">
-            <span>Obtén un rango referencial en menos de 2 minutos.</span>
-            <a href="#estimador">Empezar →</a>
+            <span>Cuéntanos tu operación y recibe una evaluación personalizada.</span>
+            <a href="#diagnostico">Empezar →</a>
           </div>
         </div>
       </div>
@@ -124,152 +124,143 @@
       </div>
     </section>
 
-    <section class="section estimator-section" id="estimador">
+    <section class="section diagnosis-section" id="diagnostico">
       <div class="container">
         <div class="section-heading">
-          <span class="eyebrow light">Estimador preliminar</span>
-          <h2>Calcula un rango referencial para tu operación</h2>
-          <p>No constituye una cotización contractual. AGP validará el alcance antes de emitir una propuesta formal.</p>
+          <span class="eyebrow light">Evaluación sin costo</span>
+          <h2>Solicita un diagnóstico gratuito para tu inventario</h2>
+          <p>Analizamos tu negocio, estimamos el tiempo y el equipo necesario, y te enviamos una propuesta personalizada sin compromiso.</p>
         </div>
 
-        <div class="estimator-shell">
-          <form class="estimator-form" id="estimatorForm">
+        <div class="diagnosis-shell">
+          <form class="diagnosis-form" id="diagnosisForm">
+            <div class="diagnosis-progress">
+              <span class="active"></span><span></span><span></span><span></span>
+              <small>Completar toma aproximadamente 2 minutos</small>
+            </div>
+
             <div class="form-section">
-              <div class="form-section-title"><span>1</span><div><strong>Tipo de servicio</strong><small>Selecciona el objetivo principal</small></div></div>
-              <div class="option-grid">
-                <label class="choice-card">
-                  <input type="radio" name="service" value="inventory" checked>
-                  <span><strong>Inventario de mercadería</strong><small>SKU, productos, almacenes o tiendas</small></span>
+              <div class="form-section-title"><span>1</span><div><strong>Cuéntanos sobre tu negocio</strong><small>Esto nos permite recomendar el tipo de operación adecuado.</small></div></div>
+              <div class="fields-grid">
+                <label>
+                  <span>Tipo de negocio</span>
+                  <select id="businessType" required>
+                    <option value="farmacia">Farmacia de barrio</option>
+                    <option value="bodega">Bodega</option>
+                    <option value="minimarket">Minimarket</option>
+                    <option value="ferreteria">Ferretería</option>
+                    <option value="retail">Tienda / retail</option>
+                    <option value="almacen">Almacén</option>
+                    <option value="otro">Otro negocio</option>
+                  </select>
                 </label>
-                <label class="choice-card">
-                  <input type="radio" name="service" value="assets">
-                  <span><strong>Activos fijos</strong><small>Equipos, mobiliario y patrimonio</small></span>
+                <label>
+                  <span>Servicio que necesitas</span>
+                  <select id="service">
+                    <option value="SER-001">Inventario de mercadería</option>
+                    <option value="SER-003">Inventario de activos fijos</option>
+                    <option value="SER-002">Auditoría o validación</option>
+                  </select>
                 </label>
-                <label class="choice-card">
-                  <input type="radio" name="service" value="audit">
-                  <span><strong>Auditoría operativa</strong><small>Validación independiente y hallazgos</small></span>
+                <label>
+                  <span>Cantidad aproximada de productos</span>
+                  <select id="quantityRange">
+                    <option value="500">Menos de 500</option>
+                    <option value="1000" selected>Entre 500 y 1,500</option>
+                    <option value="3000">Entre 1,500 y 5,000</option>
+                    <option value="7500">Entre 5,000 y 10,000</option>
+                    <option value="15000">Más de 10,000</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Número de locales o sedes</span>
+                  <input id="sites" type="number" min="1" value="1" required>
                 </label>
               </div>
             </div>
 
             <div class="form-section">
-              <div class="form-section-title"><span>2</span><div><strong>Alcance aproximado</strong><small>Los valores pueden modificarse después</small></div></div>
+              <div class="form-section-title"><span>2</span><div><strong>Condiciones del inventario</strong><small>No necesitas conocer datos exactos; selecciona lo más cercano.</small></div></div>
               <div class="fields-grid">
                 <label>
-                  <span>Cantidad de ítems / activos</span>
-                  <input id="items" name="items" type="number" min="100" step="100" value="3000" required>
-                </label>
-                <label>
-                  <span>Número de sedes</span>
-                  <input id="sites" name="sites" type="number" min="1" max="100" value="1" required>
-                </label>
-                <label>
-                  <span>Ciudad principal</span>
-                  <select id="city" name="city">
-                    <option value="lima">Lima Metropolitana</option>
-                    <option value="callao">Callao</option>
-                    <option value="province">Otra ciudad del Perú</option>
+                  <span>¿Los productos tienen código de barras?</span>
+                  <select id="barcodes">
+                    <option value="yes">Sí, la mayoría</option>
+                    <option value="partial">Solo algunos</option>
+                    <option value="no">No tienen código</option>
                   </select>
                 </label>
                 <label>
-                  <span>Horario</span>
-                  <select id="schedule" name="schedule">
-                    <option value="day">Diurno</option>
-                    <option value="night">Nocturno</option>
-                    <option value="sunday">Domingo</option>
-                    <option value="holiday">Feriado</option>
-                  </select>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="form-section-title"><span>3</span><div><strong>Complejidad y entregables</strong><small>Define el nivel de trabajo requerido</small></div></div>
-              <div class="fields-grid">
-                <label>
-                  <span>Organización del inventario</span>
-                  <select id="complexity" name="complexity">
-                    <option value="low">Ordenado y codificado</option>
+                  <span>¿Qué tan ordenado está el negocio?</span>
+                  <select id="organization">
+                    <option value="high">Ordenado por categorías</option>
                     <option value="medium" selected>Parcialmente ordenado</option>
-                    <option value="high">Alta complejidad / sin codificación</option>
+                    <option value="low">Desordenado o sin ubicación definida</option>
                   </select>
                 </label>
                 <label>
-                  <span>Nivel de servicio</span>
-                  <select id="plan" name="plan">
-                    <option value="essential">Esencial</option>
-                    <option value="professional" selected>Profesional — recomendado</option>
-                    <option value="integral">Integral</option>
+                  <span>¿Necesitas revisar lotes o vencimientos?</span>
+                  <select id="lots">
+                    <option value="no">No</option>
+                    <option value="yes">Sí</option>
+                    <option value="unknown">No estoy seguro</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Horario preferido</span>
+                  <select id="schedule">
+                    <option value="day">Durante el día</option>
+                    <option value="after">Después del cierre</option>
+                    <option value="weekend">Fin de semana</option>
+                    <option value="flexible">Flexible</option>
                   </select>
                 </label>
               </div>
+            </div>
 
-              <div class="addons">
-                <label><input type="checkbox" name="addon" value="conciliation"><span>Conciliación contra sistema</span></label>
-                <label><input type="checkbox" name="addon" value="labeling"><span>Etiquetado / codificación</span></label>
-                <label><input type="checkbox" name="addon" value="photos"><span>Registro fotográfico</span></label>
-                <label><input type="checkbox" name="addon" value="executive"><span>Informe ejecutivo</span></label>
+            <div class="form-section">
+              <div class="form-section-title"><span>3</span><div><strong>¿Qué resultado necesitas?</strong><small>Podemos adaptar el servicio para mantenerlo accesible.</small></div></div>
+              <div class="diagnosis-options">
+                <label><input type="checkbox" id="basicReport" checked><span><strong>Conteo + archivo Excel</strong><small>La opción más económica para pequeños negocios.</small></span></label>
+                <label><input type="checkbox" id="conciliation"><span><strong>Comparación con mi sistema</strong><small>Identifica faltantes y sobrantes.</small></span></label>
+                <label><input type="checkbox" id="expiry"><span><strong>Control de lotes y vencimientos</strong><small>Recomendado para farmacias.</small></span></label>
+                <label><input type="checkbox" id="executive"><span><strong>Informe ejecutivo</strong><small>Resumen de hallazgos y recomendaciones.</small></span></label>
               </div>
             </div>
 
-            <button class="btn btn-primary btn-full estimate-update-btn" type="submit">Actualizar estimación</button>
-
-            <div class="proposal-form-section">
-              <div class="proposal-heading">
-                <div class="proposal-icon">✓</div>
-                <div>
-                  <span class="proposal-kicker">Siguiente paso</span>
-                  <strong>Recibe una propuesta formal</strong>
-                  <p>Déjanos tus datos solo cuando quieras que un asesor valide el alcance y prepare el precio definitivo.</p>
-                </div>
+            <div class="form-section contact-data">
+              <div class="form-section-title"><span>4</span><div><strong>¿A dónde enviamos la evaluación?</strong><small>Un asesor revisará el caso antes de indicarte un precio.</small></div></div>
+              <div class="fields-grid">
+                <label><span>Nombre del negocio</span><input id="leadCompany" type="text" placeholder="Ej. Farmacia San José" required></label>
+                <label><span>Tu nombre</span><input id="leadContact" type="text" placeholder="Nombre completo" required></label>
+                <label><span>Celular / WhatsApp</span><input id="leadPhone" type="tel" inputmode="tel" placeholder="999 999 999" required></label>
+                <label><span>Correo (opcional)</span><input id="leadEmail" type="email" placeholder="correo@ejemplo.com"></label>
               </div>
-              <div class="proposal-fields">
-                <label><span>Empresa</span><input id="leadCompany" type="text" placeholder="Nombre o razón social"></label>
-                <label><span>Contacto</span><input id="leadContact" type="text" placeholder="Nombre completo"></label>
-                <label><span>Celular / WhatsApp</span><input id="leadPhone" type="tel" inputmode="tel" placeholder="999 999 999"></label>
-                <label><span>Correo</span><input id="leadEmail" type="email" placeholder="correo@empresa.com"></label>
-              </div>
-              <button class="btn btn-proposal btn-full" id="saveLead" type="button">
-                <span>Solicitar revisión comercial</span>
-                <span class="proposal-arrow" aria-hidden="true">→</span>
-              </button>
-              <small class="proposal-privacy">Sin compromiso. Usaremos tus datos únicamente para responder esta solicitud.</small>
             </div>
+
+            <button class="btn btn-primary btn-full diagnosis-submit" type="submit">
+              Solicitar evaluación gratuita
+              <span aria-hidden="true">→</span>
+            </button>
+            <small class="diagnosis-privacy">Sin compromiso y sin mostrar precios automáticos. Revisamos cada solicitud antes de preparar la propuesta.</small>
           </form>
 
-          <aside class="estimate-panel">
-            <div class="estimate-head">
-              <span>Estimación preliminar</span>
-              <span class="estimate-badge" id="planBadge">Profesional</span>
+          <aside class="diagnosis-benefits">
+            <span class="benefit-kicker">Lo que recibirás</span>
+            <h3>Una recomendación preparada para tu negocio</h3>
+            <div class="benefit-list">
+              <div><span>01</span><div><strong>Tiempo aproximado</strong><small>Cuántas horas o jornadas tomaría.</small></div></div>
+              <div><span>02</span><div><strong>Equipo recomendado</strong><small>Cuántas personas serían necesarias.</small></div></div>
+              <div><span>03</span><div><strong>Servicio adecuado</strong><small>Solo lo necesario para evitar sobrecostos.</small></div></div>
+              <div><span>04</span><div><strong>Propuesta personalizada</strong><small>Un precio revisado por un asesor de AGP.</small></div></div>
             </div>
-            <div class="estimate-price">
-              <small>Rango estimado sin IGV</small>
-              <strong id="estimateRange">S/ 2,250 – S/ 2,750</strong>
-              <span id="estimatePerItem">Desde S/ 0.75 por ítem</span>
+            <div class="neighborhood-note">
+              <strong>¿Tienes una bodega o farmacia pequeña?</strong>
+              <p>Contamos con modalidades básicas pensadas para negocios de barrio: conteo, Excel y diferencias, sin agregar servicios que no necesitas.</p>
             </div>
-
-            <div class="estimate-summary" id="estimateSummary"></div>
-
-            <div class="estimate-note">
-              <strong>Importante</strong>
-              <p>El precio final depende de la validación de la base, accesibilidad, tiempos, desplazamientos y condiciones de ejecución.</p>
-            </div>
-
-            <div class="advisor-card">
-              <div class="advisor-icon" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><path fill="currentColor" d="M19.11 17.24c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.19-1.35-.81-.72-1.35-1.61-1.51-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.26s.98 2.62 1.11 2.8c.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32z"/><path fill="currentColor" d="M16.03 3C8.85 3 3 8.82 3 15.98c0 2.52.73 4.97 2.11 7.08L3 29l6.13-2.02a13 13 0 0 0 6.89 1.89h.01C23.2 28.87 29 23.04 29 15.9 29 8.75 23.2 3 16.03 3zm0 23.68h-.01a10.76 10.76 0 0 1-5.49-1.5l-.39-.23-3.64 1.2 1.22-3.54-.25-.4a10.7 10.7 0 0 1-1.65-5.71c0-5.93 4.84-10.75 10.81-10.75 2.89 0 5.6 1.12 7.64 3.15a10.67 10.67 0 0 1 3.17 7.61c0 5.93-4.85 10.17-10.81 10.17z"/></svg>
-              </div>
-              <div class="advisor-copy"><strong>¿Prefieres conversar ahora?</strong><span>Envía esta estimación a un asesor de AGP.</span></div>
-              <button class="btn btn-whatsapp" id="sendWhatsapp" type="button">
-              <svg viewBox="0 0 32 32" aria-hidden="true">
-                <path fill="currentColor" d="M19.11 17.24c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.19-1.35-.81-.72-1.35-1.61-1.51-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.26s.98 2.62 1.11 2.8c.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32z"/>
-                <path fill="currentColor" d="M16.03 3C8.85 3 3 8.82 3 15.98c0 2.52.73 4.97 2.11 7.08L3 29l6.13-2.02a13 13 0 0 0 6.89 1.89h.01C23.2 28.87 29 23.04 29 15.9 29 8.75 23.2 3 16.03 3zm0 23.68h-.01a10.76 10.76 0 0 1-5.49-1.5l-.39-.23-3.64 1.2 1.22-3.54-.25-.4a10.7 10.7 0 0 1-1.65-5.71c0-5.93 4.84-10.75 10.81-10.75 2.89 0 5.6 1.12 7.64 3.15a10.67 10.67 0 0 1 3.17 7.61c0 5.93-4.85 10.17-10.81 10.17z"/>
-              </svg>
-              Enviar por WhatsApp
-              </button>
-            </div>
-            <button class="btn btn-outline btn-full" id="copyEstimate" type="button">Copiar resumen</button>
-            <small class="privacy-note">No solicitamos datos personales para calcular el rango.</small>
+            <button class="btn btn-whatsapp btn-full" id="diagnosisWhatsapp" type="button">
+              Consultar directamente por WhatsApp
+            </button>
           </aside>
         </div>
       </div>
@@ -310,6 +301,6 @@
   </footer>
 
   <div class="toast" id="toast"></div>
-  <script src="pricing-engine.js"></script><script src="app.js"></script>
+  <script src="pricing-engine.js"></script><script src="app.js?v=1.6"></script>
 </body>
 </html>

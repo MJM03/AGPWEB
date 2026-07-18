@@ -32,3 +32,8 @@
 .pdf-template-card:hover,.pdf-template-card.recommended{border-color:var(--teal);box-shadow:0 12px 30px rgba(10,53,73,.12);transform:translateY(-2px)}
 .pdf-template-tag{position:absolute;right:14px;top:14px;padding:5px 8px;border-radius:99px;background:#dff7f2;color:#087c6d;font-size:9px;font-weight:900;text-transform:uppercase}
 @media(max-width:720px){.pdf-template-grid{grid-template-columns:1fr}.pdf-template-card{min-height:145px}}
+
+.pricing-scenarios{grid-template-columns:repeat(4,1fr)}
+.scenario-card[data-price-strategy="neighborhood"]{border-color:rgba(61,214,183,.35);background:rgba(61,214,183,.08)}
+@media(max-width:1000px){.pricing-scenarios{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.pricing-scenarios{grid-template-columns:1fr}}

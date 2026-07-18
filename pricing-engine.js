@@ -10,7 +10,9 @@ const defaults={
   acquisitionMargin:10,
   launchMargin:18,
   sustainableMargin:25,
-  premiumMargin:32
+  premiumMargin:32,
+  neighborhoodMargin:6,
+  launchMargin:12
 };
 function calculate(i,settings={},service={base:.12,min:950,marketMin:.10,marketMax:.20,unit:'producto'}){
  const s={...defaults,...settings}, n=k=>Number(i[k]||0);
@@ -18,11 +20,16 @@ function calculate(i,settings={},service={base:.12,min:950,marketMin:.10,marketM
  const shift={Diurno:1,Nocturno:1.18,Mixto:1.1}[i.shift]||1;
  const urgency={Normal:1,Prioritaria:1.08,Urgente:1.18}[i.urgency]||1;
  const sites=1+Math.max(0,n('sites')-1)*.06;
- const labor=(n('operators')*s.operatorRate+n('supervisors')*s.supervisorRate+n('coordinators')*s.coordinatorRate)*Math.max(1,n('days'));
- const equipment=n('pdas')*s.pdaRate*Math.max(1,n('days'));
+ const neighborhood=i.commercialMode==='neighborhood';
+ const hourlyService=neighborhood && n('quantity')<=3000 && n('sites')===1;
+ const billableHours=hourlyService?Math.max(3,Number(i.minimumServiceHours||3),Number(i.operationalHoursOverride||0)):Math.max(1,n('days'))*8;
+ const laborDaily=n('operators')*s.operatorRate+n('supervisors')*s.supervisorRate+n('coordinators')*s.coordinatorRate;
+ const labor=hourlyService?(laborDaily/8)*billableHours: laborDaily*Math.max(1,n('days'));
+ const equipment=hourlyService?n('pdas')*(s.pdaRate/8)*billableHours:n('pdas')*s.pdaRate*Math.max(1,n('days'));
  const direct=n('mobility')+n('food')+n('lodging')+n('materials')+n('other');
+ const neighborhoodDiscount=hourlyService?.78:1;
  const volume=Math.max(Number(service.min||0),n('quantity')*Number(service.base||0));
- const raw=Math.max(volume,labor+equipment+direct);
+ const raw=hourlyService?Math.max(220,(labor+equipment+direct)*neighborhoodDiscount):Math.max(volume,labor+equipment+direct);
  const cost=raw*complexity*shift*urgency*sites;
  const requestedMargin=Math.max(0,n('margin')||Number(s.targetMargin||0));
  const minimumMargin=Math.max(0,Number(s.minMargin||10));
@@ -45,7 +52,8 @@ function calculate(i,settings={},service={base:.12,min:950,marketMin:.10,marketM
    acquisition:makePrice(s.acquisitionMargin),
    launch:makePrice(s.launchMargin),
    sustainable:makePrice(s.sustainableMargin),
-   premium:makePrice(s.premiumMargin)
+   premium:makePrice(s.premiumMargin),
+   neighborhood:makePrice(s.neighborhoodMargin)
  };
  const grossProfit=subtotal-cost;
  const productivePeople=Math.max(1,n('operators'));
@@ -61,7 +69,7 @@ function calculate(i,settings={},service={base:.12,min:950,marketMin:.10,marketM
  const plannedCapacity=productivePeople*operationalEfficiency*3600*workdayHours*plannedDays/secondsPerProduct;
  const capacityCoverage=Math.min(999,plannedCapacity/Math.max(1,n('quantity'))*100);
  const planIsFeasible=productivePeople>=requiredOperators;
- return {cost,subtotal,igv,total,unit,grossProfit,requestedMargin,appliedMargin,minimumMargin,scenarios,labor,equipment,direct,volume,factor:complexity*shift*urgency*sites,theoreticalSeconds,theoreticalHours,operationalHours,estimatedWorkdays,productivePeople,secondsPerProduct,operationalEfficiency,workdayHours,plannedDays,requiredOperators,plannedCapacity,capacityCoverage,planIsFeasible};
+ return {cost,subtotal,igv,total,unit,grossProfit,hourlyService,billableHours,requestedMargin,appliedMargin,minimumMargin,scenarios,labor,equipment,direct,volume,factor:complexity*shift*urgency*sites,theoreticalSeconds,theoreticalHours,operationalHours,estimatedWorkdays,productivePeople,secondsPerProduct,operationalEfficiency,workdayHours,plannedDays,requiredOperators,plannedCapacity,capacityCoverage,planIsFeasible};
 }
 function inferPublic({quantity=3000,sites=1,shift='Diurno',complexity='Media',service='SER-001'}){
  const q=Number(quantity),days=Math.max(1,Math.ceil(q/8000)),operators=Math.max(2,Math.ceil(q/(3500*days))),supervisors=Math.max(1,Math.ceil(operators/8)),coordinators=sites>=4?1:0,pdas=operators+supervisors;

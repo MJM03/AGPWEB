@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='3.3.0', STORAGE='agp-erp-v3-data', SETTINGS='agp-erp-v3-settings';
+  const VERSION='3.4.0', STORAGE='agp-erp-v3-data', SETTINGS='agp-erp-v3-settings';
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const money=n=>new Intl.NumberFormat('es-PE',{style:'currency',currency:'PEN'}).format(Number(n||0));
   const formatDuration=seconds=>{seconds=Math.max(0,Number(seconds||0));const h=Math.floor(seconds/3600),m=Math.round((seconds%3600)/60);if(h===0)return `${Math.max(1,m)} min`;if(m===60)return `${h+1} h`;return m?`${h} h ${m} min`:`${h} h`;};
@@ -72,12 +72,17 @@
 
   function renderQuoteBuilder(){const clients=db.clients,svc=db.services;$('#content').innerHTML=`<div class="quote-layout"><div class="card card-pad"><form id="quoteForm" class="form-grid"><div class="field"><label>Cliente</label><select name="clientId" required>${clients.map(c=>`<option value="${c.id}">${esc(c.business)}</option>`).join('')}</select></div><div class="field"><label>Servicio</label><select name="service" id="qService">${svc.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div><div class="field"><label>Cantidad estimada</label><input name="quantity" id="qQuantity" type="number" value="15000" min="1"></div><div class="field"><label>Jornadas</label><input name="days" id="qDays" type="number" value="2" min="1"></div><div class="field"><label>Operarios que cuentan</label><input name="operators" id="qOperators" type="number" value="5" min="1"></div><div class="field"><label>Segundos por producto</label><input name="secondsPerProduct" id="qSecondsPerProduct" type="number" value="1" min="0.1" step="0.1"></div><div class="field"><label>Eficiencia operativa %</label><input name="operationalEfficiencyPct" id="qEfficiency" type="number" value="75" min="35" max="100"></div><div class="field"><label>Horas por jornada</label><input name="workdayHours" id="qWorkdayHours" type="number" value="8" min="1" max="24"></div><div class="field"><label>Supervisores</label><input name="supervisors" id="qSupervisors" type="number" value="1" min="0"></div><div class="field"><label>Coordinadores</label><input name="coordinators" id="qCoordinators" type="number" value="0" min="0"></div><div class="field"><label>PDAs</label><input name="pdas" id="qPdas" type="number" value="6" min="0"></div><div class="field"><label>Horario</label><select name="shift" id="qShift"><option>Diurno</option><option>Nocturno</option><option>Mixto</option></select></div><div class="field"><label>Complejidad</label><select name="complexity" id="qComplexity"><option>Baja</option><option selected>Media</option><option>Alta</option><option>Crítica</option></select></div><div class="field"><label>Urgencia</label><select name="urgency" id="qUrgency"><option>Normal</option><option>Prioritaria</option><option>Urgente</option></select></div><div class="field"><label>Número de sedes</label><input name="sites" id="qSites" type="number" value="1" min="1"></div><div class="field"><label>Movilidad</label><input name="mobility" id="qMobility" type="number" value="300"></div><div class="field"><label>Alimentación</label><input name="food" id="qFood" type="number" value="300"></div><div class="field"><label>Hospedaje</label><input name="lodging" id="qLodging" type="number" value="0"></div><div class="field"><label>Materiales / etiquetas</label><input name="materials" id="qMaterials" type="number" value="0"></div><div class="field"><label>Otros costos</label><input name="other" id="qOther" type="number" value="100"></div>
 <div class="field"><label>Tipo de cliente</label><select name="clientSegment" id="qClientSegment"><option value="micro">Bodega / farmacia / microempresa</option><option value="small" selected>Pequeña empresa</option><option value="medium">Mediana empresa</option><option value="corporate">Corporación</option></select></div>
-<div class="field"><label>Estrategia comercial</label><select name="pricingStrategy" id="qPricingStrategy"><option value="acquisition">Captación — ganancia mínima</option><option value="launch" selected>Competitivo para iniciar</option><option value="sustainable">Sostenible</option><option value="premium">Premium / corporativo</option></select></div>
+<div class="field"><label>Rubro del negocio</label><select name="businessType" id="qBusinessType"><option value="farmacia">Farmacia de barrio</option><option value="bodega">Bodega</option><option value="minimarket">Minimarket</option><option value="ferreteria">Ferretería</option><option value="retail">Retail</option><option value="otro">Otro</option></select></div>
+<div class="field"><label>Etapa comercial de AGP</label><select name="companyStage" id="qCompanyStage"><option value="launch" selected>Lanzamiento — ganar mercado</option><option value="growth">Crecimiento</option><option value="consolidated">Consolidada</option></select></div>
+<div class="field"><label>Potencial de recurrencia</label><select name="recurrence" id="qRecurrence"><option value="high">Alto — podría contratar regularmente</option><option value="medium" selected>Medio</option><option value="low">Bajo — servicio puntual</option></select></div>
+<div class="field"><label>Valor estratégico</label><select name="strategicValue" id="qStrategicValue"><option value="reference">Primera referencia / testimonio</option><option value="network">Puede recomendar otros negocios</option><option value="normal" selected>Cliente normal</option></select></div>
+<div class="field"><label>Modalidad comercial</label><select name="commercialMode" id="qCommercialMode"><option value="neighborhood">Barrio Express — precio mínimo</option><option value="launch" selected>Lanzamiento competitivo</option><option value="growth">Crecimiento sostenible</option><option value="corporate">Corporativo</option></select></div>
+<div class="field"><label>Estrategia comercial</label><select name="pricingStrategy" id="qPricingStrategy"><option value="neighborhood">Barrio Express — mínimo viable</option><option value="acquisition">Captación estratégica</option><option value="launch" selected>Lanzamiento competitivo</option><option value="sustainable">Crecimiento sostenible</option><option value="premium">Premium / corporativo</option></select></div>
 <div class="field"><label>Margen aplicado %</label><input name="margin" id="qMargin" type="number" value="18" min="10" max="80"></div>
 <div class="field full"><div class="commercial-help"><strong>Política para AGP en etapa inicial</strong><span>Captación se usa solo para conseguir referencias o contratos recurrentes. Competitivo para iniciar es la opción recomendada. Nunca se permite cotizar por debajo del costo operativo.</span></div></div>
 <div class="field full"><label>Alcance</label><textarea name="scope" id="qScope" rows="4"></textarea></div><div class="field full form-actions"><button type="button" class="secondary-btn" data-action="quoteReset">Restablecer</button><button class="primary-btn">Registrar cotización</button></div></form></div><aside class="quote-summary"><div class="summary-box"><div class="eyebrow" style="color:#a9b9d4">Resultado comercial</div><h2 id="qServiceName" style="margin:8px 0 18px">—</h2><div class="summary-line"><span>Costo operativo</span><strong id="qCost">S/ 0</strong></div>
 <div class="pricing-scenarios">
-  <button type="button" class="scenario-card" data-price-strategy="acquisition"><span>Captación</span><strong id="qPriceAcquisition">—</strong><small>Ganancia mínima</small></button>
+  <button type="button" class="scenario-card" data-price-strategy="neighborhood"><span>Barrio Express</span><strong id="qPriceNeighborhood">—</strong><small>Precio mínimo viable</small></button><button type="button" class="scenario-card" data-price-strategy="acquisition"><span>Captación</span><strong id="qPriceAcquisition">—</strong><small>Ganancia mínima</small></button>
   <button type="button" class="scenario-card active" data-price-strategy="launch"><span>Inicio competitivo</span><strong id="qPriceLaunch">—</strong><small>Recomendado</small></button>
   <button type="button" class="scenario-card" data-price-strategy="sustainable"><span>Sostenible</span><strong id="qPriceSustainable">—</strong><small>Mayor respaldo</small></button>
 </div>
@@ -98,7 +103,7 @@
     document.getElementById('qMargin').addEventListener('input',()=>{
       document.getElementById('qPricingStrategy').value='custom';
     });
-    quoteForm.onsubmit=e=>{e.preventDefault();const fd=Object.fromEntries(new FormData(e.target)),calc=quoteCalc(true),client=db.clients.find(x=>x.id===fd.clientId);const year=new Date().getFullYear(),count=db.quotes.filter(x=>x.id.startsWith(`COT-${year}`)).length+1;db.quotes.push({id:`COT-${year}-${String(count).padStart(4,'0')}`,version:1,clientId:fd.clientId,client:client?.business||'',date:today(),expires:new Date(Date.now()+db.settings.validDays*86400000).toISOString().slice(0,10),service:fd.service,quantity:Number(fd.quantity),cost:calc.cost,subtotal:calc.subtotal,igv:calc.igv,total:calc.total,status:'Borrador',margin:calc.appliedMargin,pricingStrategy:fd.pricingStrategy,clientSegment:fd.clientSegment,grossProfit:calc.grossProfit,estimatedHours:calc.operationalHours,estimatedWorkdays:calc.estimatedWorkdays,secondsPerProduct:calc.secondsPerProduct,productivePeople:calc.productivePeople,days:Number(fd.days),operators:Number(fd.operators),supervisors:Number(fd.supervisors),coordinators:Number(fd.coordinators),pdas:Number(fd.pdas),shift:fd.shift,complexity:fd.complexity,urgency:fd.urgency,sites:Number(fd.sites),workdayHours:Number(fd.workdayHours),operationalEfficiencyPct:Number(fd.operationalEfficiencyPct),requiredOperators:calc.requiredOperators,scope:fd.scope||db.services.find(s=>s.id===fd.service)?.scope,items:[{description:db.services.find(s=>s.id===fd.service)?.name,qty:1,price:calc.subtotal}]});save('Cotización registrada');setView('quoteHistory')};quoteCalc();}
+    quoteForm.onsubmit=e=>{e.preventDefault();const fd=Object.fromEntries(new FormData(e.target)),calc=quoteCalc(true),client=db.clients.find(x=>x.id===fd.clientId);const year=new Date().getFullYear(),count=db.quotes.filter(x=>x.id.startsWith(`COT-${year}`)).length+1;db.quotes.push({id:`COT-${year}-${String(count).padStart(4,'0')}`,version:1,clientId:fd.clientId,client:client?.business||'',date:today(),expires:new Date(Date.now()+db.settings.validDays*86400000).toISOString().slice(0,10),service:fd.service,quantity:Number(fd.quantity),cost:calc.cost,subtotal:calc.subtotal,igv:calc.igv,total:calc.total,status:'Borrador',margin:calc.appliedMargin,pricingStrategy:fd.pricingStrategy,clientSegment:fd.clientSegment,businessType:fd.businessType,companyStage:fd.companyStage,recurrence:fd.recurrence,strategicValue:fd.strategicValue,commercialMode:fd.commercialMode,grossProfit:calc.grossProfit,estimatedHours:calc.operationalHours,estimatedWorkdays:calc.estimatedWorkdays,secondsPerProduct:calc.secondsPerProduct,productivePeople:calc.productivePeople,days:Number(fd.days),operators:Number(fd.operators),supervisors:Number(fd.supervisors),coordinators:Number(fd.coordinators),pdas:Number(fd.pdas),shift:fd.shift,complexity:fd.complexity,urgency:fd.urgency,sites:Number(fd.sites),workdayHours:Number(fd.workdayHours),operationalEfficiencyPct:Number(fd.operationalEfficiencyPct),requiredOperators:calc.requiredOperators,scope:fd.scope||db.services.find(s=>s.id===fd.service)?.scope,items:[{description:db.services.find(s=>s.id===fd.service)?.name,qty:1,price:calc.subtotal}]});save('Cotización registrada');setView('quoteHistory')};quoteCalc();}
   function quoteCalc(returnOnly=false){
     const form=$('#quoteForm');
     if(!form)return;
@@ -106,6 +111,12 @@
     const f={
       clientId: form.elements.clientId?.value || '',
       clientSegment: read('qClientSegment','small'),
+      businessType: read('qBusinessType','farmacia'),
+      companyStage: read('qCompanyStage','launch'),
+      recurrence: read('qRecurrence','medium'),
+      strategicValue: read('qStrategicValue','normal'),
+      commercialMode: read('qCommercialMode','launch'),
+      minimumServiceHours: 3,
       pricingStrategy: read('qPricingStrategy','launch'),
       service: read('qService','SER-001'),
       quantity: Number(read('qQuantity',0)),
@@ -132,11 +143,27 @@
     f.operationalEfficiency=Math.min(1,Math.max(.35,(f.operationalEfficiencyPct||75)/100));
     const s=db.services.find(x=>x.id===f.service)||db.services[0];
     const strategyMargins={
-      acquisition:Number(db.settings.acquisitionMargin||10),
-      launch:Number(db.settings.launchMargin||18),
-      sustainable:Number(db.settings.sustainableMargin||25),
+      neighborhood:Number(db.settings.neighborhoodMargin||6),
+      acquisition:Number(db.settings.acquisitionMargin||8),
+      launch:Number(db.settings.launchMargin||12),
+      sustainable:Number(db.settings.sustainableMargin||22),
       premium:Number(db.settings.premiumMargin||32)
     };
+    const isNeighborhood=['farmacia','bodega'].includes(f.businessType)&&f.quantity<=3000&&f.sites===1;
+    if(isNeighborhood && f.companyStage==='launch' && document.activeElement!==document.getElementById('qPricingStrategy')){
+      f.pricingStrategy='neighborhood';
+      document.getElementById('qPricingStrategy').value='neighborhood';
+      document.getElementById('qCommercialMode').value='neighborhood';
+      f.commercialMode='neighborhood';
+      if(Number(document.getElementById('qMobility').value)>100) document.getElementById('qMobility').value=80;
+      if(Number(document.getElementById('qFood').value)>80) document.getElementById('qFood').value=60;
+      if(Number(document.getElementById('qOther').value)>50) document.getElementById('qOther').value=30;
+      if(Number(document.getElementById('qPdas').value)>3) document.getElementById('qPdas').value=Math.min(3,f.operators);
+      f.mobility=Number(document.getElementById('qMobility').value);
+      f.food=Number(document.getElementById('qFood').value);
+      f.other=Number(document.getElementById('qOther').value);
+      f.pdas=Number(document.getElementById('qPdas').value);
+    }
     const strategySelect=document.getElementById('qPricingStrategy');
     const marginInput=document.getElementById('qMargin');
     if(document.activeElement!==marginInput){
@@ -150,6 +177,7 @@
     $('#qServiceName').textContent=s.name;
     if(!$('#qScope').value)$('#qScope').value=s.scope;
     $('#qCost').textContent=money(calc.cost);
+    $('#qPriceNeighborhood').textContent=money(calc.scenarios.neighborhood.subtotal);
     $('#qPriceAcquisition').textContent=money(calc.scenarios.acquisition.subtotal);
     $('#qPriceLaunch').textContent=money(calc.scenarios.launch.subtotal);
     $('#qPriceSustainable').textContent=money(calc.scenarios.sustainable.subtotal);
@@ -170,6 +198,7 @@
       corporate:'Usa precio sostenible o premium por exigencias, riesgo y tiempos de pago.'
     }[f.clientSegment];
     const strategyAdvice={
+      neighborhood:'Precio especial para bodegas y farmacias pequeñas. Alcance básico, una sede y hasta 3,000 productos.',
       acquisition:'Úsalo solo si obtendrás referencia, recurrencia o acceso a un cliente estratégico.',
       launch:'Recomendado para AGP al iniciar: competitivo, pero mantiene una reserva mínima.',
       sustainable:'Adecuado cuando el alcance incluye más control, supervisión o riesgo.',
@@ -179,8 +208,9 @@
 
     const status=$('#qPlanStatus');
     status.className='plan-status '+(calc.planIsFeasible?'is-ok':'is-warning');
+    const modalityText=calc.hourlyService?` Modalidad compacta de ${calc.billableHours.toFixed(1)} horas facturables.`:'';
     status.innerHTML=calc.planIsFeasible
-      ? `<strong>Plan viable</strong><span>Con ${calc.productivePeople} operarios se cubre aproximadamente ${Math.round(calc.capacityCoverage)}% del volumen en ${calc.plannedDays} jornada(s).</span>`
+      ? `<strong>Plan viable</strong><span>Con ${calc.productivePeople} operarios se cubre aproximadamente ${Math.round(calc.capacityCoverage)}% del volumen en ${calc.plannedDays} jornada(s).${modalityText}</span>`
       : `<strong>Plazo insuficiente</strong><span>Con ${calc.productivePeople} operarios solo se cubriría cerca del ${Math.round(calc.capacityCoverage)}%. Se requieren aproximadamente ${calc.requiredOperators} operarios o ${calc.estimatedWorkdays.toFixed(1)} jornadas.</span>`;
 
     $('#qBreakdown').innerHTML=[
