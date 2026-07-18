@@ -25,14 +25,14 @@ Esta versión funciona sin configuración y guarda datos en el navegador. La sig
 > Para producción, reemplazar este acceso local por Firebase Authentication.
 
 
-## Novedades v1.4
+## Novedades v1.5
 - Formulario público de propuesta formal rediseñado y reordenado.
 - Cálculo de tiempo teórico a 1 producto por segundo por operario.
 - Cálculo operativo ajustable por eficiencia y horas por jornada.
 - Horas y jornadas estimadas visibles y guardadas en las cotizaciones del ERP.
 
 
-## Corrección v1.4
+## Corrección v1.5
 - Recálculo inmediato y robusto del resultado comercial.
 - Lectura directa de todos los campos del cotizador.
 - Validación entre volumen, operarios y jornadas.
@@ -41,7 +41,7 @@ Esta versión funciona sin configuración y guarda datos en el navegador. La sig
 - Versionado de scripts para evitar que GitHub Pages o el navegador usen JavaScript anterior en caché.
 
 
-## Estrategia comercial v1.4
+## Estrategia comercial v1.5
 El cotizador ahora genera cuatro escenarios:
 - Captación: 10% de margen bruto.
 - Inicio competitivo: 18% (recomendado para AGP en etapa inicial).
@@ -49,3 +49,12 @@ El cotizador ahora genera cuatro escenarios:
 - Premium/corporativo: 32%.
 
 Estos porcentajes son editables y funcionan sobre el costo operativo calculado. El sistema no permite bajar del margen mínimo configurado ni vender por debajo del costo. Las bandas son una política interna inicial, no un tarifario comprobado del mercado, porque los competidores consultados cotizan cada operación según alcance y no publican precios comparables.
+
+
+## PDF profesional v1.5
+- Plantillas Premium, Corporativa y Comercial.
+- Portada personalizada por cliente.
+- Resumen ejecutivo, alcance, entregables y metodología.
+- Datos operativos, equipo, duración y propuesta económica.
+- Condiciones comerciales, contacto y espacios de firma.
+- Formato A4 listo para guardar como PDF desde el navegador.

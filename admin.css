@@ -23,3 +23,12 @@
 .scenario-card small{font-size:9px;color:#93a4be}
 .scenario-card.active{border-color:#35d0b7;background:rgba(53,208,183,.16);box-shadow:0 0 0 2px rgba(53,208,183,.08)}
 @media(max-width:720px){.pricing-scenarios{grid-template-columns:1fr}.scenario-card{grid-template-columns:1fr auto;align-items:center}.scenario-card small{grid-column:1/-1}}
+
+.pdf-template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pdf-template-card{position:relative;min-height:180px;padding:20px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(160deg,#fff,#f5f8fa);text-align:left;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;cursor:pointer;color:var(--ink);transition:.2s}
+.pdf-template-card:before{content:"PDF";position:absolute;top:18px;left:18px;width:48px;height:58px;border-radius:8px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;letter-spacing:.08em}
+.pdf-template-card strong{font-size:18px;color:var(--navy)}
+.pdf-template-card small{font-size:12px;line-height:1.45;color:var(--muted)}
+.pdf-template-card:hover,.pdf-template-card.recommended{border-color:var(--teal);box-shadow:0 12px 30px rgba(10,53,73,.12);transform:translateY(-2px)}
+.pdf-template-tag{position:absolute;right:14px;top:14px;padding:5px 8px;border-radius:99px;background:#dff7f2;color:#087c6d;font-size:9px;font-weight:900;text-transform:uppercase}
+@media(max-width:720px){.pdf-template-grid{grid-template-columns:1fr}.pdf-template-card{min-height:145px}}
