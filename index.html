@@ -9,29 +9,165 @@
   <link rel="icon" href="logo-agp.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css?v=2.0.2">
 
-  <style id="agp-mobile-menu-critical">
-    .mobile-menu-drawer,.mobile-menu-backdrop{display:none}
+
+  <style id="agp-mobile-menu-stable">
+    .agp-mobile-overlay{display:none}
     @media(max-width:900px){
       .desktop-nav{display:none!important}
-      .site-header{height:72px!important}
-      .nav-wrap{height:72px!important}
-      .menu-toggle{display:grid!important;place-content:center;gap:5px;width:46px;height:46px;padding:0;border:1px solid rgba(11,31,51,.12);border-radius:14px;background:#fff;position:relative;z-index:5002}
-      .menu-toggle span{display:block!important;width:23px;height:2px;margin:0!important;background:#0b1f33;border-radius:3px}
-      .mobile-menu-backdrop{display:block;position:fixed;inset:0;z-index:4998;background:rgba(4,18,31,.58);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility .22s}
-      .mobile-menu-backdrop.is-open{opacity:1;visibility:visible;pointer-events:auto}
-      .mobile-menu-drawer{display:flex;position:fixed;z-index:4999;top:0;right:0;bottom:0;width:min(88vw,390px);padding:max(18px,env(safe-area-inset-top)) 18px max(22px,env(safe-area-inset-bottom));background:#f8fbfc;box-shadow:-24px 0 70px rgba(2,18,31,.24);flex-direction:column;transform:translateX(105%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility .28s;overflow-y:auto}
-      .mobile-menu-drawer.is-open{transform:translateX(0);visibility:visible}
-      .mobile-menu-head{display:flex;align-items:center;justify-content:space-between;padding:5px 2px 20px;border-bottom:1px solid #dce6eb}
-      .mobile-menu-head img{width:156px;height:48px;object-fit:contain;object-position:left}
-      #mobileMenuClose{width:44px;height:44px;border:0;border-radius:13px;background:#eaf1f4;color:#0b1f33;font-size:30px;line-height:1;cursor:pointer}
-      .mobile-menu-label{display:block;margin:24px 5px 12px;color:#758596;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}
-      .mobile-menu-links{display:grid;gap:10px}
-      .mobile-menu-links a{display:flex;align-items:center;justify-content:space-between;min-height:60px;padding:0 18px;border:1px solid #dce6eb;border-radius:16px;background:#fff;color:#0b1f33;font-size:17px;font-weight:800;box-shadow:0 8px 24px rgba(11,31,51,.05)}
-      .mobile-menu-links a b{color:#2bb7a9;font-size:20px}
-      .mobile-menu-footer{margin-top:auto;padding:24px 4px 4px;border-top:1px solid #dce6eb;display:grid;gap:5px}
-      .mobile-menu-footer a{color:#0b675e;font-weight:900}
-      .mobile-menu-footer small{color:#758596}
-      body.mobile-drawer-open{overflow:hidden!important;touch-action:none}
+      .site-header{height:72px!important;min-height:72px!important}
+      .nav-wrap{height:72px!important;min-height:72px!important}
+      .brand-logo{width:158px!important;height:48px!important}
+      .menu-toggle{
+        display:flex!important;
+        flex-direction:column!important;
+        justify-content:center!important;
+        align-items:center!important;
+        gap:5px!important;
+        width:46px!important;
+        height:46px!important;
+        padding:0!important;
+        margin:0!important;
+        border:1px solid #dce6eb!important;
+        border-radius:14px!important;
+        background:#fff!important;
+        position:relative!important;
+        z-index:9000!important;
+      }
+      .menu-toggle span{
+        display:block!important;
+        width:23px!important;
+        height:2px!important;
+        margin:0!important;
+        background:#0b1f33!important;
+        border-radius:99px!important;
+        transform:none!important;
+        opacity:1!important;
+      }
+
+      .agp-mobile-overlay{
+        position:fixed!important;
+        inset:0!important;
+        z-index:99999!important;
+        width:100vw!important;
+        height:100dvh!important;
+        min-height:100vh!important;
+        background:linear-gradient(160deg,#f9fcfd 0%,#eef6f7 100%)!important;
+        color:#0b1f33!important;
+        overflow-y:auto!important;
+        overscroll-behavior:contain!important;
+        -webkit-overflow-scrolling:touch!important;
+        padding:max(16px,env(safe-area-inset-top)) 18px max(24px,env(safe-area-inset-bottom))!important;
+      }
+      .agp-mobile-overlay.is-open{
+        display:flex!important;
+        flex-direction:column!important;
+      }
+      .agp-mobile-overlay[hidden]{display:none!important}
+
+      .agp-mobile-overlay__top{
+        display:flex!important;
+        align-items:center!important;
+        justify-content:space-between!important;
+        min-height:60px!important;
+        padding:0 0 18px!important;
+        border-bottom:1px solid #d8e4e9!important;
+      }
+      .agp-mobile-overlay__top img{
+        width:164px!important;
+        height:48px!important;
+        object-fit:contain!important;
+        object-position:left center!important;
+      }
+      #agpMobileClose{
+        width:48px!important;
+        height:48px!important;
+        border:0!important;
+        border-radius:15px!important;
+        background:#e7eff3!important;
+        color:#0b1f33!important;
+        font-size:34px!important;
+        font-weight:300!important;
+        line-height:1!important;
+        display:grid!important;
+        place-items:center!important;
+      }
+
+      .agp-mobile-overlay__content{
+        display:flex!important;
+        flex:1!important;
+        flex-direction:column!important;
+        padding:30px 0 0!important;
+      }
+      .agp-mobile-overlay__eyebrow{
+        margin:0 4px 13px!important;
+        color:#168e84!important;
+        font-size:11px!important;
+        font-weight:900!important;
+        letter-spacing:.17em!important;
+        text-transform:uppercase!important;
+      }
+      .agp-mobile-overlay__links{
+        display:grid!important;
+        gap:11px!important;
+      }
+      .agp-mobile-overlay__links a{
+        display:flex!important;
+        align-items:center!important;
+        justify-content:space-between!important;
+        min-height:66px!important;
+        padding:0 18px!important;
+        border:1px solid #d8e4e9!important;
+        border-radius:18px!important;
+        background:#fff!important;
+        color:#0b1f33!important;
+        text-decoration:none!important;
+        box-shadow:0 8px 25px rgba(11,31,51,.05)!important;
+      }
+      .agp-mobile-overlay__links a span{
+        font-size:18px!important;
+        font-weight:850!important;
+      }
+      .agp-mobile-overlay__links a b{
+        font-size:11px!important;
+        color:#2bb7a9!important;
+        letter-spacing:.08em!important;
+      }
+
+      .agp-mobile-overlay__portal{
+        margin-top:auto!important;
+        padding:24px 20px!important;
+        border-radius:20px!important;
+        background:#0b1f33!important;
+        color:#fff!important;
+        display:grid!important;
+        gap:7px!important;
+      }
+      .agp-mobile-overlay__portal span{
+        color:#72d9ce!important;
+        font-size:10px!important;
+        font-weight:900!important;
+        letter-spacing:.14em!important;
+        text-transform:uppercase!important;
+      }
+      .agp-mobile-overlay__portal strong{
+        font-size:15px!important;
+      }
+      .agp-mobile-overlay__portal a{
+        margin-top:8px!important;
+        color:#fff!important;
+        font-size:14px!important;
+        font-weight:900!important;
+        text-decoration:none!important;
+      }
+      body.agp-menu-open{
+        overflow:hidden!important;
+        position:fixed!important;
+        width:100%!important;
+      }
+    }
+    @media(min-width:901px){
+      .agp-mobile-overlay{display:none!important}
+      .desktop-nav{display:flex!important}
     }
   </style>
 
@@ -43,7 +179,7 @@
         <img src="logo-agp.svg" alt="Logo AGP Control Integral" class="brand-logo">
       </a>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="agpMobileOverlay">
         <span></span><span></span><span></span>
       </button>
 
@@ -53,27 +189,32 @@
         <a href="#diagnostico">Diagnóstico gratuito</a>
         <a href="#contacto">Contacto</a>
       </nav>
-
-      <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" hidden></div>
-      <aside class="mobile-menu-drawer" id="mobileMenu" aria-hidden="true">
-        <div class="mobile-menu-head">
-          <img src="logo-agp.svg" alt="AGP Control Integral">
-          <button type="button" id="mobileMenuClose" aria-label="Cerrar menú">×</button>
-        </div>
-        <span class="mobile-menu-label">Navegación</span>
-        <nav class="mobile-menu-links">
-          <a href="#servicios"><span>Servicios</span><b>→</b></a>
-          <a href="#metodologia"><span>Cómo trabajamos</span><b>→</b></a>
-          <a href="#diagnostico"><span>Diagnóstico gratuito</span><b>→</b></a>
-          <a href="#contacto"><span>Contacto</span><b>→</b></a>
-        </nav>
-        <div class="mobile-menu-footer">
-          <a href="login.html">Ingresar a Portal AGP</a>
-          <small>Acceso para clientes y colaboradores</small>
-        </div>
-      </aside>
     </div>
   </header>
+
+  <div id="agpMobileOverlay" class="agp-mobile-overlay" hidden aria-hidden="true">
+    <div class="agp-mobile-overlay__top">
+      <img src="logo-agp.svg" alt="AGP Control Integral">
+      <button type="button" id="agpMobileClose" aria-label="Cerrar menú">×</button>
+    </div>
+
+    <div class="agp-mobile-overlay__content">
+      <span class="agp-mobile-overlay__eyebrow">Navegación</span>
+      <nav class="agp-mobile-overlay__links" aria-label="Menú móvil">
+        <a href="#servicios"><span>Servicios</span><b>01</b></a>
+        <a href="#metodologia"><span>Cómo trabajamos</span><b>02</b></a>
+        <a href="#diagnostico"><span>Diagnóstico gratuito</span><b>03</b></a>
+        <a href="#contacto"><span>Contacto</span><b>04</b></a>
+      </nav>
+
+      <div class="agp-mobile-overlay__portal">
+        <span>Portal privado</span>
+        <strong>Acceso para clientes y colaboradores</strong>
+        <a href="login.html">Ingresar a AGP Platform →</a>
+      </div>
+    </div>
+  </div>
+
 
   <main>
     <section class="hero">
@@ -342,7 +483,7 @@
         <a href="login.html">Portal AGP</a>
         <small>Acceso para clientes y colaboradores</small>
       </div>
-      <span>© <span id="year"></span> AGP Control Integral · Versión 3.3 Mobile Firebase</span>
+      <span>© <span id="year"></span> AGP Control Integral · Versión 3.4 Mobile Firebase</span>
     </div>
   </footer>
 
@@ -350,56 +491,72 @@
   <script src="pricing-engine.js?v=2.0.3"></script>
   <script type="module" src="app.js?v=2.0.3"></script>
 
-  <script>
+
+  <script id="agp-mobile-menu-controller">
   (() => {
     "use strict";
-    const ready = () => {
-      const openBtn = document.getElementById("menuToggle");
-      const closeBtn = document.getElementById("mobileMenuClose");
-      const drawer = document.getElementById("mobileMenu");
-      const backdrop = document.getElementById("mobileMenuBackdrop");
-      if (!openBtn || !closeBtn || !drawer || !backdrop) return;
 
-      const setOpen = (open) => {
-        drawer.classList.toggle("is-open", open);
-        backdrop.classList.toggle("is-open", open);
-        backdrop.hidden = false;
-        drawer.setAttribute("aria-hidden", String(!open));
-        openBtn.setAttribute("aria-expanded", String(open));
-        document.body.classList.toggle("mobile-drawer-open", open);
-        if (!open) {
-          setTimeout(() => {
-            if (!backdrop.classList.contains("is-open")) backdrop.hidden = true;
-          }, 250);
-        }
+    const init = () => {
+      const openButton = document.getElementById("menuToggle");
+      const closeButton = document.getElementById("agpMobileClose");
+      const overlay = document.getElementById("agpMobileOverlay");
+      if (!openButton || !closeButton || !overlay) return;
+
+      let savedScrollY = 0;
+
+      const openMenu = () => {
+        savedScrollY = window.scrollY || 0;
+        overlay.hidden = false;
+        overlay.classList.add("is-open");
+        overlay.setAttribute("aria-hidden","false");
+        openButton.setAttribute("aria-expanded","true");
+        document.body.style.top = `-${savedScrollY}px`;
+        document.body.classList.add("agp-menu-open");
       };
 
-      openBtn.addEventListener("click", e => {
-        e.preventDefault();
-        e.stopPropagation();
-        setOpen(true);
-      });
-      closeBtn.addEventListener("click", () => setOpen(false));
-      backdrop.addEventListener("click", () => setOpen(false));
-      drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
-      document.addEventListener("keydown", e => {
-        if (e.key === "Escape") setOpen(false);
-      });
-      window.addEventListener("resize", () => {
-        if (window.innerWidth > 900) setOpen(false);
-      }, {passive:true});
-      window.addEventListener("pageshow", () => setOpen(false));
+      const closeMenu = () => {
+        overlay.classList.remove("is-open");
+        overlay.setAttribute("aria-hidden","true");
+        openButton.setAttribute("aria-expanded","false");
+        document.body.classList.remove("agp-menu-open");
+        document.body.style.top = "";
+        overlay.hidden = true;
+        window.scrollTo(0,savedScrollY);
+      };
 
-      // Remove older service workers/caches that may keep obsolete public assets.
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(reg => reg.unregister())).catch(()=>{});
-      }
-      if ("caches" in window) {
-        caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith("agp-platform-")).map(k => caches.delete(k)))).catch(()=>{});
-      }
+      openButton.onclick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        openMenu();
+      };
+      closeButton.onclick = closeMenu;
+
+      overlay.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", closeMenu);
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !overlay.hidden) closeMenu();
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900 && !overlay.hidden) closeMenu();
+      }, {passive:true});
+
+      window.addEventListener("pageshow", () => {
+        overlay.hidden = true;
+        overlay.classList.remove("is-open");
+        document.body.classList.remove("agp-menu-open");
+        document.body.style.top = "";
+        openButton.setAttribute("aria-expanded","false");
+      });
     };
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ready, {once:true});
-    else ready();
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init, {once:true});
+    } else {
+      init();
+    }
   })();
   </script>
 

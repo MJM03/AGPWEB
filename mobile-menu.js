@@ -1,1 +1,1 @@
-/* Deprecated in v2.0.4: mobile menu is embedded in index.html. */
+/* No longer used. Menu controller is embedded in index.html v2.0.5. */
