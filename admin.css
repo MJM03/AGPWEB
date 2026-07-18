@@ -12,3 +12,14 @@
 .plan-status span{line-height:1.45}
 .plan-status.is-ok{background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.28);color:#dcfce7}
 .plan-status.is-warning{background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.34);color:#fef3c7}
+
+.commercial-help{display:grid;gap:5px;padding:14px 16px;border-radius:14px;background:#eef9f7;border:1px solid #c8ece7;color:#174b46}
+.commercial-help strong{font-size:13px}
+.commercial-help span{font-size:12px;line-height:1.5;color:#4d6f6b}
+.pricing-scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.scenario-card{appearance:none;text-align:left;padding:12px 10px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;display:grid;gap:4px}
+.scenario-card span{font-size:10px;color:#a9b9d4;text-transform:uppercase;letter-spacing:.06em}
+.scenario-card strong{font-size:15px}
+.scenario-card small{font-size:9px;color:#93a4be}
+.scenario-card.active{border-color:#35d0b7;background:rgba(53,208,183,.16);box-shadow:0 0 0 2px rgba(53,208,183,.08)}
+@media(max-width:720px){.pricing-scenarios{grid-template-columns:1fr}.scenario-card{grid-template-columns:1fr auto;align-items:center}.scenario-card small{grid-column:1/-1}}
