@@ -1,19 +1,183 @@
-const CONFIG={whatsapp:"51999999999",email:"contacto@agp.com",locale:"es-PE",currency:"PEN"};
-const RATES={inventario:{base:680,unit:.28,min:950,name:"Inventario físico"},auditoria:{base:1100,unit:.18,min:1400,name:"Auditoría de inventario"},activos:{base:850,unit:.48,min:1200,name:"Activos fijos"},etiquetado:{base:620,unit:.38,min:900,name:"Etiquetado"},digitalizacion:{base:500,unit:.22,min:750,name:"Digitalización"},supervision:{base:900,unit:.12,min:1100,name:"Supervisión operativa"}};
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];let deferred,lastLead;
-document.addEventListener("DOMContentLoaded",()=>{$("#year").textContent=new Date().getFullYear();nav();reveal();estimator();forms();cards();pwa();wa();});
-function nav(){window.addEventListener("scroll",()=>$("#header").classList.toggle("scrolled",scrollY>20));$("#menuBtn").onclick=()=>$("#mobileNav").classList.toggle("open");$$(".mobile-nav a").forEach(a=>a.onclick=()=>$("#mobileNav").classList.remove("open"))}
-function reveal(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");o.unobserve(e.target)}}),{threshold:.1});$$(".reveal").forEach(x=>o.observe(x))}
-function estimator(){["service","volume","locations","shift","complexity","urgency","equipment","report","travel"].forEach(id=>$("#"+id).addEventListener("input",calc));$("#recalc").onclick=calc;calc()}
-function calc(){const k=$("#service").value,r=RATES[k],v=Math.max(1,+$("#volume").value||1),l=Math.max(1,+$("#locations").value||1);let s=r.base+v*r.unit+Math.max(0,l-1)*360;s*=({day:1,night:1.18,mixed:1.12})[$("#shift").value]*({standard:1,medium:1.16,high:1.34})[$("#complexity").value]*({normal:1,soon:1.12,urgent:1.28})[$("#urgency").value];if($("#equipment").checked)s+=Math.max(180,v*.035);if($("#report").checked)s+=280;if($("#travel").checked)s+=950+l*220;s=Math.max(s,r.min);let low=Math.round(s*.92/50)*50,high=Math.round(s*1.14/50)*50;$("#estimateRange").textContent=`${money(low)} – ${money(high)}`;$("#estimateUnit").textContent=`Referencia: ${money((low+high)/2/v)} por unidad · ${l} sede(s)`;return{low,high,service:r.name,volume:v,locations:l}}
-function money(v){return new Intl.NumberFormat(CONFIG.locale,{style:"currency",currency:CONFIG.currency,maximumFractionDigits:0}).format(v)}
-function forms(){$("#quoteForm").onsubmit=e=>{e.preventDefault();const x=calc(),lead={id:Date.now(),type:"cotizacion",createdAt:new Date().toISOString(),name:$("#leadName").value.trim(),contact:$("#leadContact").value.trim(),service:x.service,volume:x.volume,locations:x.locations,range:`${money(x.low)} – ${money(x.high)}`,shift:$("#shift").selectedOptions[0].text,complexity:$("#complexity").selectedOptions[0].text,urgency:$("#urgency").selectedOptions[0].text};save(lead);showModal(lead)};$("#contactForm").onsubmit=e=>{e.preventDefault();const lead={id:Date.now(),type:"contacto",createdAt:new Date().toISOString(),name:$("#contactName").value.trim(),company:$("#contactCompany").value.trim(),contact:$("#contactData").value.trim(),service:$("#contactService").value,message:$("#contactMessage").value.trim()};save(lead);window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg(lead))}`,"_blank");toast("Solicitud guardada");e.target.reset()};$$("[data-close]").forEach(x=>x.onclick=()=>$("#modal").classList.remove("open"));$("#downloadBtn").onclick=()=>download(lastLead)}
-function save(x){const k="agp_web_leads_v1",a=JSON.parse(localStorage.getItem(k)||"[]");a.unshift(x);localStorage.setItem(k,JSON.stringify(a.slice(0,100)));lastLead=x}
-function showModal(x){$("#summary").innerHTML=`<b>${esc(x.name)}</b><br>${esc(x.service)} · ${x.volume.toLocaleString("es-PE")} unidades<br>${x.locations} sede(s) · ${esc(x.range)}`;$("#modalWa").href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg(x))}`;$("#modal").classList.add("open")}
-function msg(x){return x.type==="cotizacion"?`Hola AGP, deseo una propuesta formal.\n\nNombre/Empresa: ${x.name}\nContacto: ${x.contact}\nServicio: ${x.service}\nVolumen: ${x.volume}\nSedes: ${x.locations}\nHorario: ${x.shift}\nComplejidad: ${x.complexity}\nUrgencia: ${x.urgency}\nRango web: ${x.range}`:`Hola AGP, deseo información.\n\nNombre: ${x.name}\nEmpresa: ${x.company||"-"}\nContacto: ${x.contact}\nServicio: ${x.service}\nDetalle: ${x.message}`}
-function cards(){$$(".card button").forEach(b=>b.onclick=()=>{$("#service").value=b.closest(".card").dataset.service;calc();$("#cotizador").scrollIntoView({behavior:"smooth"})})}
-function wa(){const h=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("Hola AGP, deseo información sobre sus servicios.")}`;$("#waLink").href=h;$("#floatingWa").href=h}
-function toast(t){$("#toast").textContent=t;$("#toast").classList.add("show");setTimeout(()=>$("#toast").classList.remove("show"),2500)}
-function download(x){const b=new Blob([JSON.stringify(x,null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=`solicitud-agp-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(u)}
-function pwa(){if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js");window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;$("#installBtn").hidden=false});$("#installBtn").onclick=async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice;deferred=null;$("#installBtn").hidden=true}}
-function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+const AGP_WHATSAPP = "51999999999"; // Reemplazar por el número real, sin + ni espacios.
+
+const serviceLabels = {
+  inventory: "Inventario de mercadería",
+  assets: "Control de activos fijos",
+  audit: "Auditoría operativa"
+};
+
+const planLabels = {
+  essential: "Esencial",
+  professional: "Profesional",
+  integral: "Integral"
+};
+
+const config = {
+  inventory: { base: 620, rate: 0.38 },
+  assets: { base: 780, rate: 0.52 },
+  audit: { base: 980, rate: 0.44 }
+};
+
+const multipliers = {
+  plan: { essential: 0.86, professional: 1, integral: 1.28 },
+  complexity: { low: 0.88, medium: 1, high: 1.34 },
+  schedule: { day: 1, night: 1.18, sunday: 1.28, holiday: 1.45 },
+  city: { lima: 1, callao: 1.05, province: 1.22 }
+};
+
+const addonPrices = {
+  conciliation: { fixed: 260, rate: 0.08 },
+  labeling: { fixed: 180, rate: 0.17 },
+  photos: { fixed: 140, rate: 0.08 },
+  executive: { fixed: 320, rate: 0.02 }
+};
+
+let currentEstimate = null;
+
+function money(value) {
+  return new Intl.NumberFormat("es-PE", {
+    style: "currency",
+    currency: "PEN",
+    maximumFractionDigits: 0
+  }).format(value);
+}
+
+function selected(name) {
+  return document.querySelector(`[name="${name}"]:checked`)?.value;
+}
+
+function calculateEstimate() {
+  const service = selected("service") || "inventory";
+  const items = Math.max(100, Number(document.getElementById("items").value || 100));
+  const sites = Math.max(1, Number(document.getElementById("sites").value || 1));
+  const city = document.getElementById("city").value;
+  const schedule = document.getElementById("schedule").value;
+  const complexity = document.getElementById("complexity").value;
+  const plan = document.getElementById("plan").value;
+  const addons = [...document.querySelectorAll('[name="addon"]:checked')].map(x => x.value);
+
+  const serviceConfig = config[service];
+  const scaleDiscount = items >= 50000 ? 0.72 : items >= 20000 ? 0.79 : items >= 10000 ? 0.86 : items >= 5000 ? 0.92 : 1;
+  const siteFactor = 1 + ((sites - 1) * 0.13);
+
+  let subtotal = (serviceConfig.base + (items * serviceConfig.rate * scaleDiscount));
+  subtotal *= siteFactor;
+  subtotal *= multipliers.plan[plan];
+  subtotal *= multipliers.complexity[complexity];
+  subtotal *= multipliers.schedule[schedule];
+  subtotal *= multipliers.city[city];
+
+  addons.forEach(addon => {
+    subtotal += addonPrices[addon].fixed + (items * addonPrices[addon].rate);
+  });
+
+  const minimumByService = service === "inventory" ? 850 : service === "assets" ? 980 : 1250;
+  subtotal = Math.max(subtotal, minimumByService);
+
+  // Rango comercial: permite negociar sin convertir la estimación en compromiso contractual.
+  const low = Math.round((subtotal * 0.93) / 50) * 50;
+  const high = Math.round((subtotal * 1.13) / 50) * 50;
+  const perItem = low / items;
+
+  currentEstimate = { service, items, sites, city, schedule, complexity, plan, addons, low, high, perItem };
+  renderEstimate();
+}
+
+function renderEstimate() {
+  const e = currentEstimate;
+  document.getElementById("estimateRange").textContent = `${money(e.low)} – ${money(e.high)}`;
+  document.getElementById("estimatePerItem").textContent = `Desde ${money(e.perItem)} por ítem`;
+  document.getElementById("planBadge").textContent = planLabels[e.plan];
+
+  const cityText = { lima: "Lima Metropolitana", callao: "Callao", province: "Otra ciudad del Perú" }[e.city];
+  const scheduleText = { day: "Diurno", night: "Nocturno", sunday: "Domingo", holiday: "Feriado" }[e.schedule];
+  const complexityText = { low: "Ordenado", medium: "Complejidad media", high: "Alta complejidad" }[e.complexity];
+
+  document.getElementById("estimateSummary").innerHTML = `
+    <div class="summary-row"><span>Servicio</span><strong>${serviceLabels[e.service]}</strong></div>
+    <div class="summary-row"><span>Volumen</span><strong>${e.items.toLocaleString("es-PE")} ítems</strong></div>
+    <div class="summary-row"><span>Sedes</span><strong>${e.sites}</strong></div>
+    <div class="summary-row"><span>Ubicación</span><strong>${cityText}</strong></div>
+    <div class="summary-row"><span>Horario</span><strong>${scheduleText}</strong></div>
+    <div class="summary-row"><span>Complejidad</span><strong>${complexityText}</strong></div>
+  `;
+}
+
+function estimateMessage() {
+  const e = currentEstimate;
+  const addonsText = e.addons.length ? e.addons.join(", ") : "Sin adicionales";
+  return `Hola, AGP. Generé una estimación preliminar en su web:
+
+Servicio: ${serviceLabels[e.service]}
+Volumen: ${e.items.toLocaleString("es-PE")} ítems/activos
+Sedes: ${e.sites}
+Plan: ${planLabels[e.plan]}
+Rango estimado sin IGV: ${money(e.low)} - ${money(e.high)}
+Adicionales: ${addonsText}
+
+Quisiera validar el alcance y recibir una propuesta formal.`;
+}
+
+function openWhatsapp(message) {
+  const url = `https://wa.me/${AGP_WHATSAPP}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank", "noopener");
+}
+
+function toast(message) {
+  const el = document.getElementById("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => el.classList.remove("show"), 2400);
+}
+
+document.getElementById("estimatorForm").addEventListener("submit", event => {
+  event.preventDefault();
+  calculateEstimate();
+  toast("Estimación actualizada");
+});
+
+document.querySelectorAll("#estimatorForm input, #estimatorForm select").forEach(el => {
+  el.addEventListener("change", calculateEstimate);
+});
+
+document.getElementById("sendWhatsapp").addEventListener("click", () => openWhatsapp(estimateMessage()));
+document.getElementById("contactWhatsapp").addEventListener("click", event => {
+  event.preventDefault();
+  openWhatsapp("Hola, AGP. Quisiera recibir información sobre sus servicios de inventario y control operativo.");
+});
+document.getElementById("floatingWhatsapp").addEventListener("click", event => {
+  event.preventDefault();
+  openWhatsapp("Hola, AGP. Quisiera solicitar información.");
+});
+
+document.getElementById("copyEstimate").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(estimateMessage());
+    toast("Resumen copiado");
+  } catch {
+    const area = document.createElement("textarea");
+    area.value = estimateMessage();
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+    toast("Resumen copiado");
+  }
+});
+
+const menuToggle = document.getElementById("menuToggle");
+const mainNav = document.getElementById("mainNav");
+menuToggle.addEventListener("click", () => {
+  const open = mainNav.classList.toggle("open");
+  document.body.classList.toggle("menu-open", open);
+  menuToggle.setAttribute("aria-expanded", String(open));
+});
+mainNav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+  mainNav.classList.remove("open");
+  document.body.classList.remove("menu-open");
+  menuToggle.setAttribute("aria-expanded", "false");
+}));
+
+document.getElementById("year").textContent = new Date().getFullYear();
+calculateEstimate();

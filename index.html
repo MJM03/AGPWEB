@@ -1,101 +1,284 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b1320">
-<title>AGP | Control & Operaciones</title>
-<meta name="description" content="Inventarios, auditoría, activos fijos, etiquetado y control operativo.">
-<link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0B1F33">
+  <meta name="description" content="AGP Control Integral: inventarios físicos, control de activos y auditoría operativa en Lima y Perú.">
+  <title>AGP Control Integral | Inventarios y control operativo</title>
+  <link rel="icon" href="logo-agp.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header id="header">
-  <div class="container nav">
-    <a class="brand" href="#inicio"><span>AGP</span><div><b>Control & Operaciones</b><small>Inventarios · Auditoría · Activos</small></div></a>
-    <nav><a href="#servicios">Servicios</a><a href="#sectores">Sectores</a><a href="#metodo">Metodología</a><a href="#cotizador">Cotizador</a><a href="#contacto">Contacto</a></nav>
-    <div class="actions"><button id="installBtn" hidden>Instalar</button><a class="btn" href="#cotizador">Cotizar</a><button id="menuBtn" class="menu">☰</button></div>
-  </div>
-  <div id="mobileNav" class="mobile-nav"><a href="#servicios">Servicios</a><a href="#sectores">Sectores</a><a href="#metodo">Metodología</a><a href="#cotizador">Cotizador</a><a href="#contacto">Contacto</a></div>
-</header>
+  <header class="site-header" id="inicio">
+    <div class="container nav-wrap">
+      <a class="brand" href="#inicio" aria-label="AGP Control Integral">
+        <img src="logo-agp.svg" alt="Logo AGP Control Integral" class="brand-logo">
+      </a>
 
-<main>
-<section id="inicio" class="hero">
-  <div class="grid-bg"></div>
-  <div class="container hero-grid">
-    <div class="hero-copy reveal">
-      <p class="eyebrow">Operación profesional en Lima y a nivel nacional</p>
-      <h1>Control real para operaciones que <em>no pueden fallar.</em></h1>
-      <p class="lead">Ejecutamos inventarios físicos, auditorías, control de activos, etiquetado y proyectos operativos con metodología, trazabilidad y resultados medibles.</p>
-      <div class="hero-buttons"><a class="btn big" href="#cotizador">Calcular estimación</a><a class="btn alt big" href="#servicios">Ver servicios</a></div>
-      <div class="stats"><div><b>100%</b><span>Trazabilidad</span></div><div><b>Multisede</b><span>Operación escalable</span></div><div><b>Data ready</b><span>Entregables claros</span></div></div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav" id="mainNav">
+        <a href="#servicios">Servicios</a>
+        <a href="#metodologia">Cómo trabajamos</a>
+        <a href="#estimador">Estimador</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#estimador" class="btn btn-sm btn-primary">Obtener estimación</a>
+      </nav>
     </div>
-    <div class="dashboard reveal">
-      <div class="dash-head"><div><small>Centro operativo</small><b>Visibilidad de punta a punta</b></div><span>EN CONTROL</span></div>
-      <div class="score"><div class="ring"><b>98.7%</b><small>Precisión</small></div><div><small>Indicador de calidad</small><h3>Conciliación controlada</h3><p>Validación por capas y revisión de diferencias.</p></div></div>
-      <div class="kpis"><div><small>Avance</small><b>74%</b><i><u style="width:74%"></u></i></div><div><small>Incidencias</small><b>12</b><span>Priorizadas</span></div><div><small>Equipo</small><b>18</b><span>Asignados</span></div></div>
-      <div class="flow"><div><span>01</span><p><b>Conteo inicial</b><small>Captura por zona</small></p><em>OK</em></div><div><span>02</span><p><b>Validación cruzada</b><small>Sistema vs físico</small></p><em>ACTIVO</em></div><div><span>03</span><p><b>Informe ejecutivo</b><small>Diferencias y valorización</small></p><em>FINAL</em></div></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-grid"></div>
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <span class="eyebrow">Inventarios físicos · Activos · Auditoría operativa</span>
+          <h1>Información confiable para tomar mejores decisiones.</h1>
+          <p>
+            Ejecutamos inventarios organizados, apoyados en tecnología y con reportes claros.
+            Desde una sede hasta operaciones multisede en Lima y todo el Perú.
+          </p>
+          <div class="hero-actions">
+            <a href="#estimador" class="btn btn-primary">Calcular estimación</a>
+            <a href="#contacto" class="btn btn-secondary">Hablar con un asesor</a>
+          </div>
+          <div class="trust-row">
+            <div><strong>Precisión</strong><span>Procesos de conteo y validación</span></div>
+            <div><strong>Trazabilidad</strong><span>Resultados organizados y auditables</span></div>
+            <div><strong>Respuesta</strong><span>Propuestas adaptadas al alcance real</span></div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-card-top">
+            <span class="status-dot"></span>
+            <span>Diagnóstico preliminar</span>
+          </div>
+          <div class="metric-card">
+            <span>Tipo de servicio</span>
+            <strong>Inventario físico</strong>
+          </div>
+          <div class="metric-card">
+            <span>Modalidad</span>
+            <strong>Operación supervisada</strong>
+          </div>
+          <div class="metric-card">
+            <span>Entregable</span>
+            <strong>Base consolidada + informe</strong>
+          </div>
+          <div class="hero-card-footer">
+            <span>Obtén un rango referencial en menos de 2 minutos.</span>
+            <a href="#estimador">Empezar →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section services" id="servicios">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow dark">Servicios</span>
+          <h2>Control operativo de principio a fin</h2>
+          <p>Diseñamos el servicio según el volumen, complejidad, ubicación y nivel de análisis requerido.</p>
+        </div>
+
+        <div class="cards-grid">
+          <article class="service-card">
+            <div class="icon-box">01</div>
+            <h3>Inventario de mercadería</h3>
+            <p>Conteo físico, captura por código, consolidación, diferencias y base final.</p>
+            <ul><li>Retail y almacenes</li><li>Conteos generales o cíclicos</li><li>Operaciones multisede</li></ul>
+          </article>
+          <article class="service-card featured">
+            <span class="tag">Más solicitado</span>
+            <div class="icon-box">02</div>
+            <h3>Control de activos fijos</h3>
+            <p>Levantamiento, identificación, ubicación, estado y conciliación de activos.</p>
+            <ul><li>Etiquetado y codificación</li><li>Registro fotográfico opcional</li><li>Base patrimonial estructurada</li></ul>
+          </article>
+          <article class="service-card">
+            <div class="icon-box">03</div>
+            <h3>Auditoría operativa</h3>
+            <p>Revisión independiente de procesos, existencias, diferencias y oportunidades de mejora.</p>
+            <ul><li>Muestreo o revisión integral</li><li>Hallazgos priorizados</li><li>Reporte ejecutivo</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section process" id="metodologia">
+      <div class="container process-layout">
+        <div class="section-heading left">
+          <span class="eyebrow dark">Metodología AGP</span>
+          <h2>No solo contamos. Validamos, analizamos y entregamos control.</h2>
+          <p>Cada propuesta se ajusta al contexto real para evitar sobrecostos y promesas poco realistas.</p>
+        </div>
+        <div class="steps">
+          <div class="step"><span>1</span><div><h3>Diagnóstico</h3><p>Volumen, sedes, horarios, base maestra, equipos y entregables.</p></div></div>
+          <div class="step"><span>2</span><div><h3>Plan operativo</h3><p>Personal, supervisión, cronograma, validaciones y contingencias.</p></div></div>
+          <div class="step"><span>3</span><div><h3>Ejecución</h3><p>Captura trazable, control de calidad y seguimiento del avance.</p></div></div>
+          <div class="step"><span>4</span><div><h3>Entrega</h3><p>Base consolidada, diferencias, hallazgos y recomendaciones.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section estimator-section" id="estimador">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow light">Estimador preliminar</span>
+          <h2>Calcula un rango referencial para tu operación</h2>
+          <p>No constituye una cotización contractual. AGP validará el alcance antes de emitir una propuesta formal.</p>
+        </div>
+
+        <div class="estimator-shell">
+          <form class="estimator-form" id="estimatorForm">
+            <div class="form-section">
+              <div class="form-section-title"><span>1</span><div><strong>Tipo de servicio</strong><small>Selecciona el objetivo principal</small></div></div>
+              <div class="option-grid">
+                <label class="choice-card">
+                  <input type="radio" name="service" value="inventory" checked>
+                  <span><strong>Inventario de mercadería</strong><small>SKU, productos, almacenes o tiendas</small></span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="service" value="assets">
+                  <span><strong>Activos fijos</strong><small>Equipos, mobiliario y patrimonio</small></span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="service" value="audit">
+                  <span><strong>Auditoría operativa</strong><small>Validación independiente y hallazgos</small></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title"><span>2</span><div><strong>Alcance aproximado</strong><small>Los valores pueden modificarse después</small></div></div>
+              <div class="fields-grid">
+                <label>
+                  <span>Cantidad de ítems / activos</span>
+                  <input id="items" name="items" type="number" min="100" step="100" value="3000" required>
+                </label>
+                <label>
+                  <span>Número de sedes</span>
+                  <input id="sites" name="sites" type="number" min="1" max="100" value="1" required>
+                </label>
+                <label>
+                  <span>Ciudad principal</span>
+                  <select id="city" name="city">
+                    <option value="lima">Lima Metropolitana</option>
+                    <option value="callao">Callao</option>
+                    <option value="province">Otra ciudad del Perú</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Horario</span>
+                  <select id="schedule" name="schedule">
+                    <option value="day">Diurno</option>
+                    <option value="night">Nocturno</option>
+                    <option value="sunday">Domingo</option>
+                    <option value="holiday">Feriado</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title"><span>3</span><div><strong>Complejidad y entregables</strong><small>Define el nivel de trabajo requerido</small></div></div>
+              <div class="fields-grid">
+                <label>
+                  <span>Organización del inventario</span>
+                  <select id="complexity" name="complexity">
+                    <option value="low">Ordenado y codificado</option>
+                    <option value="medium" selected>Parcialmente ordenado</option>
+                    <option value="high">Alta complejidad / sin codificación</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Nivel de servicio</span>
+                  <select id="plan" name="plan">
+                    <option value="essential">Esencial</option>
+                    <option value="professional" selected>Profesional — recomendado</option>
+                    <option value="integral">Integral</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="addons">
+                <label><input type="checkbox" name="addon" value="conciliation"><span>Conciliación contra sistema</span></label>
+                <label><input type="checkbox" name="addon" value="labeling"><span>Etiquetado / codificación</span></label>
+                <label><input type="checkbox" name="addon" value="photos"><span>Registro fotográfico</span></label>
+                <label><input type="checkbox" name="addon" value="executive"><span>Informe ejecutivo</span></label>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-full" type="submit">Actualizar estimación</button>
+          </form>
+
+          <aside class="estimate-panel">
+            <div class="estimate-head">
+              <span>Estimación preliminar</span>
+              <span class="estimate-badge" id="planBadge">Profesional</span>
+            </div>
+            <div class="estimate-price">
+              <small>Rango estimado sin IGV</small>
+              <strong id="estimateRange">S/ 2,250 – S/ 2,750</strong>
+              <span id="estimatePerItem">Desde S/ 0.75 por ítem</span>
+            </div>
+
+            <div class="estimate-summary" id="estimateSummary"></div>
+
+            <div class="estimate-note">
+              <strong>Importante</strong>
+              <p>El precio final depende de la validación de la base, accesibilidad, tiempos, desplazamientos y condiciones de ejecución.</p>
+            </div>
+
+            <button class="btn btn-whatsapp btn-full" id="sendWhatsapp" type="button">
+              <svg viewBox="0 0 32 32" aria-hidden="true">
+                <path fill="currentColor" d="M19.11 17.24c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.19-1.35-.81-.72-1.35-1.61-1.51-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.26s.98 2.62 1.11 2.8c.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32z"/>
+                <path fill="currentColor" d="M16.03 3C8.85 3 3 8.82 3 15.98c0 2.52.73 4.97 2.11 7.08L3 29l6.13-2.02a13 13 0 0 0 6.89 1.89h.01C23.2 28.87 29 23.04 29 15.9 29 8.75 23.2 3 16.03 3zm0 23.68h-.01a10.76 10.76 0 0 1-5.49-1.5l-.39-.23-3.64 1.2 1.22-3.54-.25-.4a10.7 10.7 0 0 1-1.65-5.71c0-5.93 4.84-10.75 10.81-10.75 2.89 0 5.6 1.12 7.64 3.15a10.67 10.67 0 0 1 3.17 7.61c0 5.93-4.85 10.17-10.81 10.17z"/>
+              </svg>
+              Enviar estimación por WhatsApp
+            </button>
+            <button class="btn btn-outline btn-full" id="copyEstimate" type="button">Copiar resumen</button>
+            <small class="privacy-note">No solicitamos datos personales para calcular el rango.</small>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contacto">
+      <div class="container contact-box">
+        <div>
+          <span class="eyebrow dark">Conversemos</span>
+          <h2>¿Necesitas una propuesta formal?</h2>
+          <p>Cuéntanos el alcance y prepararemos una solución operativa ajustada a tus necesidades.</p>
+        </div>
+        <div class="contact-actions">
+          <a href="#" id="contactWhatsapp" class="btn btn-primary">Contactar por WhatsApp</a>
+          <a href="mailto:contacto@agp.pe" class="btn btn-secondary light-bg">contacto@agp.pe</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a href="#" class="floating-whatsapp" id="floatingWhatsapp" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path fill="currentColor" d="M19.11 17.24c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.15-.42-2.19-1.35-.81-.72-1.35-1.61-1.51-1.88-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.26s.98 2.62 1.11 2.8c.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32z"/>
+      <path fill="currentColor" d="M16.03 3C8.85 3 3 8.82 3 15.98c0 2.52.73 4.97 2.11 7.08L3 29l6.13-2.02a13 13 0 0 0 6.89 1.89h.01C23.2 28.87 29 23.04 29 15.9 29 8.75 23.2 3 16.03 3zm0 23.68h-.01a10.76 10.76 0 0 1-5.49-1.5l-.39-.23-3.64 1.2 1.22-3.54-.25-.4a10.7 10.7 0 0 1-1.65-5.71c0-5.93 4.84-10.75 10.81-10.75 2.89 0 5.6 1.12 7.64 3.15a10.67 10.67 0 0 1 3.17 7.61c0 5.93-4.85 10.17-10.81 10.17z"/>
+    </svg>
+  </a>
+
+  <footer>
+    <div class="container footer-layout">
+      <img src="logo-agp.svg" alt="AGP Control Integral" class="footer-logo">
+      <p>Inventarios físicos, activos y control operativo.</p>
+      <span>© <span id="year"></span> AGP Control Integral · Versión 2.1</span>
     </div>
-  </div>
-</section>
+  </footer>
 
-<section class="strip"><div class="container"><span>Metodología operativa</span><span>Personal supervisado</span><span>Reportes ejecutivos</span><span>Control por sedes</span><span>Atención empresarial</span></div></section>
-
-<section id="servicios" class="section">
-<div class="container">
-  <div class="heading reveal"><div><span>Servicios AGP</span><h2>Soluciones diseñadas para recuperar el control.</h2></div><p>Adaptamos recursos, herramientas y metodología al volumen real de cada operación.</p></div>
-  <div class="cards">
-    <article class="card dark reveal" data-service="inventario"><i>01</i><strong>▦</strong><h3>Inventario físico</h3><p>Conteo, reconteo, consolidación y conciliación por tienda, almacén, lote o categoría.</p><ul><li>Captura móvil</li><li>Validación de diferencias</li><li>Reporte valorizado</li></ul><button>Cotizar servicio</button></article>
-    <article class="card reveal" data-service="auditoria"><i>02</i><strong>✓</strong><h3>Auditoría de inventario</h3><p>Revisión independiente para identificar riesgos, brechas y oportunidades de mejora.</p><ul><li>Muestreo dirigido</li><li>Hallazgos priorizados</li><li>Plan de mejora</li></ul><button>Cotizar servicio</button></article>
-    <article class="card reveal" data-service="activos"><i>03</i><strong>◇</strong><h3>Activos fijos</h3><p>Levantamiento, identificación, estado y conciliación de activos por sede.</p><ul><li>Etiquetado patrimonial</li><li>Registro fotográfico</li><li>Base depurada</li></ul><button>Cotizar servicio</button></article>
-    <article class="card reveal" data-service="etiquetado"><i>04</i><strong>⌁</strong><h3>Etiquetado y codificación</h3><p>Campañas de identificación con código de barras, QR o nomenclaturas internas.</p><ul><li>Impresión y aplicación</li><li>Control correlativo</li><li>Validación de lectura</li></ul><button>Cotizar servicio</button></article>
-    <article class="card reveal" data-service="digitalizacion"><i>05</i><strong>⌨</strong><h3>Digitalización de datos</h3><p>Conversión, limpieza y estructuración de información física o dispersa.</p><ul><li>Digitación controlada</li><li>Reglas de calidad</li><li>Entrega en Excel</li></ul><button>Cotizar servicio</button></article>
-    <article class="card reveal" data-service="supervision"><i>06</i><strong>◎</strong><h3>Supervisión operativa</h3><p>Coordinación de equipos y seguimiento de proyectos en campo o multisede.</p><ul><li>Plan operativo</li><li>Productividad</li><li>Incidencias</li></ul><button>Cotizar servicio</button></article>
-  </div>
-</div></section>
-
-<section id="sectores" class="section sectors">
-<div class="container"><div class="heading light reveal"><div><span>Experiencia transversal</span><h2>Nos adaptamos al ritmo de cada industria.</h2></div><p>Personal, horarios, controles y entregables según el entorno.</p></div>
-<div class="sector-grid"><article><small>Retail</small><h3>Tiendas y cadenas</h3><p>Conteos, aperturas, cierres y campañas.</p></article><article><small>Logística</small><h3>Almacenes</h3><p>Control por ubicación, lote y SKU.</p></article><article><small>Corporativo</small><h3>Oficinas y activos</h3><p>Levantamiento por sede y centro de costo.</p></article><article><small>Industrial</small><h3>Plantas</h3><p>Repuestos, herramientas y materiales.</p></article><article><small>Salud</small><h3>Clínicas</h3><p>Control por vencimiento y ubicación.</p></article><article><small>Servicios</small><h3>Proyectos especiales</h3><p>Captura, digitación y validación.</p></article></div></div>
-</section>
-
-<section id="metodo" class="section">
-<div class="container"><div class="heading reveal"><div><span>Metodología AGP</span><h2>Un proceso claro desde el diagnóstico hasta el cierre.</h2></div><p>Cada proyecto parte de un alcance, responsables e indicadores definidos.</p></div>
-<div class="timeline"><article><b>01</b><div><small>Diagnóstico</small><h3>Entendemos la operación</h3><p>Volumen, sedes, riesgos y entregables.</p></div></article><article><b>02</b><div><small>Planificación</small><h3>Diseñamos el operativo</h3><p>Equipo, cronograma y controles.</p></div></article><article><b>03</b><div><small>Ejecución</small><h3>Operamos con trazabilidad</h3><p>Captura, supervisión e incidencias.</p></div></article><article><b>04</b><div><small>Validación</small><h3>Revisamos diferencias</h3><p>Reconteos y control de calidad.</p></div></article><article><b>05</b><div><small>Entrega</small><h3>Convertimos datos en decisiones</h3><p>Informe, base final y recomendaciones.</p></div></article></div></div>
-</section>
-
-<section id="cotizador" class="section quote-bg">
-<div class="container quote-wrap reveal">
-  <div class="quote-copy"><span>Cotizador preliminar</span><h2>Obtén una referencia rápida para tu proyecto.</h2><p>El cálculo es orientativo y permite dimensionar el servicio antes de la evaluación comercial.</p><div class="ticks"><p>✓ Estimación inmediata</p><p>✓ Rango referencial</p><p>✓ Solicitud descargable</p></div></div>
-  <form id="quoteForm">
-    <div class="form-grid">
-      <label>Servicio<select id="service"><option value="inventario">Inventario físico</option><option value="auditoria">Auditoría de inventario</option><option value="activos">Activos fijos</option><option value="etiquetado">Etiquetado</option><option value="digitalizacion">Digitalización</option><option value="supervision">Supervisión operativa</option></select></label>
-      <label>Volumen estimado<input id="volume" type="number" min="1" value="5000"></label>
-      <label>Número de sedes<input id="locations" type="number" min="1" value="1"></label>
-      <label>Horario<select id="shift"><option value="day">Diurno</option><option value="night">Nocturno</option><option value="mixed">Mixto</option></select></label>
-      <label>Complejidad<select id="complexity"><option value="standard">Estándar</option><option value="medium">Media</option><option value="high">Alta</option></select></label>
-      <label>Urgencia<select id="urgency"><option value="normal">Programable</option><option value="soon">Dentro de 7 días</option><option value="urgent">Dentro de 72 horas</option></select></label>
-    </div>
-    <div class="checks"><label><input id="equipment" type="checkbox" checked> Equipos de captura</label><label><input id="report" type="checkbox" checked> Informe ejecutivo</label><label><input id="travel" type="checkbox"> Fuera de Lima</label></div>
-    <div class="estimate"><div><small>Estimación referencial</small><b id="estimateRange">S/ 0 – S/ 0</b><span id="estimateUnit"></span></div><button type="button" id="recalc">Recalcular</button></div>
-    <div class="lead-grid"><label>Nombre o empresa<input id="leadName" required placeholder="Empresa ABC"></label><label>WhatsApp o correo<input id="leadContact" required placeholder="999 999 999"></label></div>
-    <button class="btn full big" type="submit">Solicitar propuesta formal</button><p class="note">El precio final depende de accesos, distribución, calidad de la base, plazo y entregables.</p>
-  </form>
-</div></section>
-
-<section class="section result">
-<div class="container result-grid"><div class="reveal"><span class="tag">Resultados que importan</span><h2>Más que contar: ordenar, validar y explicar.</h2><p>Una buena operación debe permitir entender las diferencias, tomar decisiones y mejorar el control interno.</p><div class="mini-results"><div><b>01</b><span>Base conciliada</span></div><div><b>02</b><span>Hallazgos</span></div><div><b>03</b><span>Entregables</span></div></div></div><article class="case reveal"><header><span>Caso de uso</span><b>Inventario multisede</b></header><div><small>Reto</small><p>Información dispersa y diferencias sin validar.</p><small>Intervención</small><p>Plan por sedes, captura y consolidación.</p><small>Resultado</small><p>Base única y diferencias trazables.</p></div></article></div>
-</section>
-
-<section id="contacto" class="section contact">
-<div class="container contact-grid"><div class="reveal"><span class="tag">Hablemos de tu operación</span><h2>Cuéntanos qué necesitas controlar.</h2><p>Describe el servicio, volumen y fecha estimada.</p><div class="contact-list"><a id="waLink" href="#"><b>WA</b><span><small>WhatsApp comercial</small>Configurar en app.js</span></a><a href="mailto:contacto@agp.com"><b>@</b><span><small>Correo</small>contacto@agp.com</span></a><div><b>PE</b><span><small>Cobertura</small>Lima y atención nacional</span></div></div></div>
-<form id="contactForm"><label>Nombre completo<input id="contactName" required></label><label>Empresa<input id="contactCompany"></label><label>Teléfono o correo<input id="contactData" required></label><label>Servicio<select id="contactService"><option>Inventario físico</option><option>Auditoría</option><option>Activos fijos</option><option>Etiquetado</option><option>Digitalización</option><option>Supervisión</option></select></label><label class="wide">Describe el proyecto<textarea id="contactMessage" rows="5" required></textarea></label><button class="btn full big" type="submit">Enviar solicitud</button></form></div>
-</section>
-</main>
-
-<footer><div class="container footer-grid"><div><a class="brand footer-brand" href="#inicio"><span>AGP</span><div><b>Control & Operaciones</b><small>Soluciones empresariales</small></div></a><p>Inventarios, auditoría, activos y soporte operativo.</p></div><div><b>Servicios</b><a href="#servicios">Inventarios</a><a href="#servicios">Auditoría</a><a href="#servicios">Activos</a></div><div><b>Empresa</b><a href="#metodo">Metodología</a><a href="#sectores">Sectores</a><a href="#contacto">Contacto</a></div><div><b>Versión</b><span>AGP Web v1.0.0</span><span>PWA instalable</span></div></div><div class="container footer-bottom">© <span id="year"></span> AGP · Todos los derechos reservados.</div></footer>
-
-<a id="floatingWa" class="floating" href="#">WA</a>
-<div id="toast" class="toast"></div>
-<div id="modal" class="modal"><div class="backdrop" data-close></div><div class="modal-card"><button data-close>×</button><span class="ok">✓</span><h3>Solicitud registrada</h3><p>La información quedó guardada en este dispositivo.</p><div id="summary"></div><div class="modal-actions"><button id="downloadBtn">Descargar</button><a id="modalWa" class="btn">Enviar por WhatsApp</a></div></div></div>
-<script src="app.js"></script>
-</body></html>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

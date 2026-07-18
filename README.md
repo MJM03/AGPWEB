@@ -1,31 +1,40 @@
-# AGP Web Comercial v1.0.0
+# AGPWeb v2.1
 
-Web responsive, PWA e instalable, lista para GitHub Pages.
+Landing responsive con estimador preliminar para AGP Control Integral.
 
 ## Archivos
-Todos se encuentran en la raíz, sin carpetas.
+- `index.html`
+- `styles.css`
+- `app.js`
+- `logo-agp.svg`
 
-## Configuración
-Abre `app.js` y modifica:
+## Configuración obligatoria
+En `app.js`, reemplaza:
 
 ```js
-const CONFIG={
-  whatsapp:"51999999999",
-  email:"contacto@agp.com"
-};
+const AGP_WHATSAPP = "51999999999";
 ```
 
-El número se escribe con código de país, sin `+`, espacios ni guiones.
+por el número real de WhatsApp, usando código de país y sin `+`, espacios ni guiones.
 
-## Publicar
-1. Sube todos los archivos a la raíz del repositorio.
-2. Ve a Settings > Pages.
-3. Selecciona `Deploy from a branch`.
-4. Elige `main` y `/root`.
+Ejemplo Perú:
 
-## Cotizador
-Las tarifas se modifican en el objeto `RATES` de `app.js`.
-Los valores son preliminares y no sustituyen una propuesta comercial formal.
+```js
+const AGP_WHATSAPP = "51987654321";
+```
 
-## Solicitudes
-Se guardan en `localStorage` y pueden descargarse como JSON.
+## Logo
+El archivo `logo-agp.svg` incluido es un reemplazo temporal profesional.  
+Para usar el logo oficial, reemplaza ese archivo manteniendo exactamente el nombre `logo-agp.svg`, o modifica las rutas en `index.html`.
+
+## Publicación en GitHub Pages
+Sube todos los archivos a la raíz del repositorio. No requiere carpetas ni compilación.
+
+## Cambios principales
+- Eliminado el botón de instalación.
+- WhatsApp implementado con SVG integrado, sin librerías externas.
+- Estimación preliminar por rango.
+- Planes Esencial, Profesional e Integral.
+- Cálculo por volumen, sedes, ciudad, horario, complejidad y adicionales.
+- Copia y envío del resumen por WhatsApp.
+- Diseño responsive y optimizado para móviles.
