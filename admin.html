@@ -7,12 +7,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="AGP ERP" />
-  <title>AGP ERP Pro</title>
+  <title>AGP Platform Firebase</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="stylesheet" href="admin.css" />
 </head>
-<body><script>if(!sessionStorage.getItem("agp_session")){location.replace("login.html");}</script>
+<body>
   <div id="app">
     <aside class="sidebar" id="sidebar">
       <div class="brand">
@@ -22,7 +22,7 @@
       <nav id="nav"></nav>
       <div class="sidebar-foot">
         <button class="ghost-btn" data-action="backup">Respaldo</button><button class="ghost-btn" id="logoutBtn">Cerrar sesión</button>
-        <div class="version">v3.0.0 · Local Pro</div>
+        <div class="version">v2.0 · Firebase</div>
       </div>
     </aside>
 
@@ -56,6 +56,6 @@
 
   <input type="file" id="importFile" accept="application/json" hidden />
   <div class="toast" id="toast"></div>
-  <script src="pricing-engine.js?v=1.7"></script><script src="admin.js?v=1.7"></script><script>document.getElementById("logoutBtn").addEventListener("click",()=>{sessionStorage.removeItem("agp_session");location.replace("login.html")});</script>
+  <script type="module" src="admin-bootstrap.js?v=2.0"></script>
 </body>
 </html>

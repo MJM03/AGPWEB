@@ -1,6 +1,5 @@
+import { createPublicLead } from "./firebase-service.js";
 const AGP_WHATSAPP = "51999999999"; // Reemplazar por el número real de AGP.
-const DB_KEY = "agp-erp-v3-data";
-
 const $ = (selector) => document.querySelector(selector);
 
 function openWhatsapp(message) {
@@ -65,17 +64,13 @@ Negocio: ${d.company}
 Celular: ${d.phone}`;
 }
 
-$("#diagnosisForm")?.addEventListener("submit", event => {
+$("#diagnosisForm")?.addEventListener("submit", async event => {
   event.preventDefault();
   const d = diagnosisData();
   if (!d.company || !d.contact || !d.phone) {
     toast("Completa negocio, nombre y celular");
     return;
   }
-
-  let db = {};
-  try { db = JSON.parse(localStorage.getItem(DB_KEY) || "{}"); } catch {}
-  db.leads = Array.isArray(db.leads) ? db.leads : [];
 
   const complexity =
     d.organization === "low" || d.barcodes === "no" ? "Alta" :
@@ -88,29 +83,29 @@ $("#diagnosisForm")?.addEventListener("submit", event => {
     `Entregables: ${Object.entries(d.deliverables).filter(([,v]) => v).map(([k]) => k).join(", ")}`
   ].join(" | ");
 
-  db.leads.unshift({
-    id: nextLeadId(db.leads),
-    date: new Date().toISOString().slice(0, 10),
-    company: d.company,
-    contact: d.contact,
-    phone: d.phone,
-    email: d.email,
-    service: d.service,
-    origin: "Diagnóstico web",
-    status: "Nuevo",
-    owner: "Sin asignar",
-    next: new Date().toISOString().slice(0, 10),
-    notes,
-    diagnosis: {
-      ...d,
-      complexity,
-      recommendedMode: ["farmacia", "bodega"].includes(d.businessType) && d.quantity <= 3000
-        ? "Plan Esencial"
-        : "Lanzamiento"
-    }
-  });
-
-  localStorage.setItem(DB_KEY, JSON.stringify(db));
+  try {
+    await createPublicLead({
+      date: new Date().toISOString().slice(0, 10),
+      company: d.company,
+      contact: d.contact,
+      phone: d.phone,
+      email: d.email,
+      service: d.service,
+      notes,
+      diagnosis: {
+        ...d,
+        complexity,
+        recommendedMode: ["farmacia", "bodega"].includes(d.businessType) && d.quantity <= 3000
+          ? "Plan Esencial"
+          : "Lanzamiento"
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    toast("No se pudo registrar en Firebase. Escríbenos por WhatsApp.");
+    openWhatsapp(diagnosisSummary(d));
+    return;
+  }
   toast("Solicitud registrada. Un asesor revisará tu caso.");
   setTimeout(() => openWhatsapp(diagnosisSummary(d)), 600);
 });

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='3.5.0', STORAGE='agp-erp-v3-data', SETTINGS='agp-erp-v3-settings';
+  const VERSION='4.0.0', STORAGE='agp-erp-v3-data', SETTINGS='agp-erp-v3-settings';
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const money=n=>new Intl.NumberFormat('es-PE',{style:'currency',currency:'PEN'}).format(Number(n||0));
   const formatDuration=seconds=>{seconds=Math.max(0,Number(seconds||0));const h=Math.floor(seconds/3600),m=Math.round((seconds%3600)/60);if(h===0)return `${Math.max(1,m)} min`;if(m===60)return `${h+1} h`;return m?`${h} h ${m} min`:`${h} h`;};
@@ -29,9 +29,32 @@
     invoices:[], payments:[], incidents:[], documents:[], services,
     settings:{company:'AGP Control Integral',ruc:'',email:'agpcontrolintegral@gmail.com',phone:'992898514',address:'Lima, Perú',igv:18,minMargin:28,targetMargin:40,operatorRate:110,supervisorRate:220,coordinatorRate:300,pdaRate:110,validDays:15}
   };
-  let db=load(), view='dashboard', query='';
-  function load(){try{return {...structuredClone(initial),...JSON.parse(localStorage.getItem(STORAGE)||'{}')}}catch{return structuredClone(initial)}}
-  function save(msg){localStorage.setItem(STORAGE,JSON.stringify(db)); if(msg) toast(msg); render();}
+  let db=load(), view='dashboard', query='', cloudHydrated=false, cloudSaving=false;
+  function load(){
+    try{
+      return {...structuredClone(initial),...JSON.parse(localStorage.getItem(STORAGE)||'{}')}
+    }catch{
+      return structuredClone(initial)
+    }
+  }
+  function cacheLocal(){
+    localStorage.setItem(STORAGE,JSON.stringify(db));
+  }
+  function save(msg){
+    cacheLocal();
+    if(msg) toast(msg);
+    render();
+    if(window.AGPCloud){
+      cloudSaving=true;
+      window.AGPCloud.saveWorkspace(db)
+        .then(()=>{cloudSaving=false})
+        .catch(error=>{
+          cloudSaving=false;
+          console.error('Error guardando en Firestore:',error);
+          toast('Guardado local; Firestore no respondió');
+        });
+    }
+  }
   function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200)}
   function statusClass(s=''){s=s.toLowerCase();return /ganad|acept|activo|confirm|complet|pagad/.test(s)?'success':/perdid|anulad|vencid|crític/.test(s)?'danger':/pend|borrador|plan|proceso|enviado|contact/.test(s)?'warning':'neutral'}
   const navGroups=[['General',[['dashboard','⌂','Dashboard'],['quotes','▤','Cotizador Pro']]],['Comercial',[['clients','◉','Clientes'],['leads','◎','Leads'],['opportunities','◇','Oportunidades'],['quoteHistory','▧','Cotizaciones']]],['Operaciones',[['projects','▣','Proyectos'],['tasks','✓','Tareas'],['incidents','!','Incidencias'],['staff','♙','Personal']]],['Finanzas',[['finance','$','Finanzas'],['invoices','▥','Facturas'],['payments','◫','Pagos']]],['Catálogos',[['suppliers','◌','Proveedores'],['services','≡','Servicios'],['documents','⌁','Documentos'],['settings','⚙','Configuración']]]];
@@ -68,7 +91,7 @@
   function renderTableCustom(type,c){configs[type]=c;renderTable(type)}
   function renderFinance(){const income=db.movements.filter(x=>x.type==='Ingreso'&&x.status!=='Anulado').reduce((a,b)=>a+Number(b.amount),0),expense=db.movements.filter(x=>x.type==='Egreso'&&x.status!=='Anulado').reduce((a,b)=>a+Number(b.amount),0);$('#content').innerHTML=`<div class="grid kpis"><div class="card kpi"><div class="label">Ingresos</div><div class="value">${money(income)}</div></div><div class="card kpi"><div class="label">Egresos</div><div class="value">${money(expense)}</div></div><div class="card kpi"><div class="label">Caja</div><div class="value">${money(income-expense)}</div></div><div class="card kpi"><div class="label">Cuentas por cobrar</div><div class="value">${money(db.invoices.filter(x=>!['Pagada','Anulada'].includes(x.status)).reduce((a,b)=>a+Number(b.total),0))}</div></div></div><div style="margin-top:18px" id="financeTable"></div>`;const old=$('#content').innerHTML;configs.movements=configs.movements;const temp=$('#financeTable');temp.innerHTML=`<div class="toolbar"><button class="primary-btn" data-action="new" data-type="movements">＋ Movimiento</button></div><div class="card"><div class="table-wrap"><table class="data-table"><thead><tr>${configs.movements.cols.map(x=>`<th>${x[1]}</th>`).join('')}<th>Acciones</th></tr></thead><tbody>${db.movements.map(r=>`<tr>${configs.movements.cols.map(([k])=>`<td>${displayValue(k,r[k])}</td>`).join('')}<td><div class="row-actions"><button class="mini-btn" data-action="edit" data-type="movements" data-id="${r.id}">Editar</button><button class="mini-btn danger" data-action="delete" data-type="movements" data-id="${r.id}">Eliminar</button></div></td></tr>`).join('')}</tbody></table></div></div>`;}
   function renderServices(){const arr=db.services;$('#content').innerHTML=`<div class="toolbar"><button class="primary-btn" data-action="serviceNew">＋ Servicio</button></div><div class="grid two">${arr.map(s=>`<div class="card card-pad"><div style="display:flex;justify-content:space-between;gap:12px"><div><span class="badge">${s.id}</span><h3>${esc(s.name)}</h3></div><div class="row-actions"><button class="mini-btn" data-action="serviceEdit" data-id="${s.id}">Editar</button><button class="mini-btn danger" data-action="delete" data-type="services" data-id="${s.id}">Eliminar</button></div></div><p style="color:var(--muted);font-size:13px">${esc(s.scope)}</p><div class="detail-grid"><div class="detail-item"><span>Tarifa base</span><strong>${money(s.base)} / ${s.unit}</strong></div><div class="detail-item"><span>Mínimo</span><strong>${money(s.min)}</strong></div><div class="detail-item"><span>Banda referencial</span><strong>${money(s.marketMin)} – ${money(s.marketMax)}</strong></div></div></div>`).join('')}</div>`}
-  function renderSettings(){const s=db.settings;$('#content').innerHTML=`<div class="card card-pad"><form id="settingsForm" class="form-grid">${[['company','Empresa','text'],['ruc','RUC','text'],['email','Correo','email'],['phone','Celular','tel'],['address','Dirección','text'],['igv','IGV %','number'],['minMargin','Margen mínimo %','number'],['targetMargin','Margen objetivo %','number'],['operatorRate','Tarifa operario/jornada','number'],['supervisorRate','Tarifa supervisor/jornada','number'],['coordinatorRate','Tarifa coordinador/jornada','number'],['pdaRate','Tarifa PDA/jornada','number'],['validDays','Vigencia cotización (días)','number']].map(([k,l,t])=>`<div class="field"><label>${l}</label><input name="${k}" type="${t}" value="${esc(s[k])}"></div>`).join('')}<div class="field full form-actions"><button type="button" class="secondary-btn" data-action="backup">Respaldar</button><button class="primary-btn">Guardar configuración</button></div></form></div>`;$('#settingsForm').onsubmit=e=>{e.preventDefault();Object.fromEntries(new FormData(e.target)).constructor;for(const [k,v] of new FormData(e.target))db.settings[k]=['igv','minMargin','targetMargin','operatorRate','supervisorRate','coordinatorRate','pdaRate','validDays'].includes(k)?Number(v):v;save('Configuración actualizada')};}
+  function renderSettings(){const s=db.settings;$('#content').innerHTML=`<div class="card card-pad"><form id="settingsForm" class="form-grid">${[['company','Empresa','text'],['ruc','RUC','text'],['email','Correo','email'],['phone','Celular','tel'],['address','Dirección','text'],['igv','IGV %','number'],['minMargin','Margen mínimo %','number'],['targetMargin','Margen objetivo %','number'],['operatorRate','Tarifa operario/jornada','number'],['supervisorRate','Tarifa supervisor/jornada','number'],['coordinatorRate','Tarifa coordinador/jornada','number'],['pdaRate','Tarifa PDA/jornada','number'],['validDays','Vigencia cotización (días)','number']].map(([k,l,t])=>`<div class="field"><label>${l}</label><input name="${k}" type="${t}" value="${esc(s[k])}"></div>`).join('')}<div class="field full form-actions"><a class="secondary-btn" href="migration.html">Migrar datos locales</a><button type="button" class="secondary-btn" data-action="backup">Respaldar</button><button class="primary-btn">Guardar configuración</button></div></form></div>`;$('#settingsForm').onsubmit=e=>{e.preventDefault();Object.fromEntries(new FormData(e.target)).constructor;for(const [k,v] of new FormData(e.target))db.settings[k]=['igv','minMargin','targetMargin','operatorRate','supervisorRate','coordinatorRate','pdaRate','validDays'].includes(k)?Number(v):v;save('Configuración actualizada')};}
 
   function renderQuoteBuilder(){const clients=db.clients,svc=db.services;$('#content').innerHTML=`<div class="quote-layout"><div class="card card-pad"><form id="quoteForm" class="form-grid"><div class="field"><label>Cliente</label><select name="clientId" required>${clients.map(c=>`<option value="${c.id}">${esc(c.business)}</option>`).join('')}</select></div><div class="field"><label>Servicio</label><select name="service" id="qService">${svc.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div><div class="field"><label>Cantidad estimada</label><input name="quantity" id="qQuantity" type="number" value="15000" min="1"></div><div class="field"><label>Jornadas</label><input name="days" id="qDays" type="number" value="2" min="1"></div><div class="field"><label>Operarios que cuentan</label><input name="operators" id="qOperators" type="number" value="5" min="1"></div><div class="field"><label>Segundos por producto</label><input name="secondsPerProduct" id="qSecondsPerProduct" type="number" value="1" min="0.1" step="0.1"></div><div class="field"><label>Eficiencia operativa %</label><input name="operationalEfficiencyPct" id="qEfficiency" type="number" value="75" min="35" max="100"></div><div class="field"><label>Horas por jornada</label><input name="workdayHours" id="qWorkdayHours" type="number" value="8" min="1" max="24"></div><div class="field"><label>Supervisores</label><input name="supervisors" id="qSupervisors" type="number" value="1" min="0"></div><div class="field"><label>Coordinadores</label><input name="coordinators" id="qCoordinators" type="number" value="0" min="0"></div><div class="field"><label>PDAs</label><input name="pdas" id="qPdas" type="number" value="6" min="0"></div><div class="field"><label>Horario</label><select name="shift" id="qShift"><option>Diurno</option><option>Nocturno</option><option>Mixto</option></select></div><div class="field"><label>Complejidad</label><select name="complexity" id="qComplexity"><option>Baja</option><option selected>Media</option><option>Alta</option><option>Crítica</option></select></div><div class="field"><label>Urgencia</label><select name="urgency" id="qUrgency"><option>Normal</option><option>Prioritaria</option><option>Urgente</option></select></div><div class="field"><label>Número de sedes</label><input name="sites" id="qSites" type="number" value="1" min="1"></div><div class="field"><label>Movilidad</label><input name="mobility" id="qMobility" type="number" value="300"></div><div class="field"><label>Alimentación</label><input name="food" id="qFood" type="number" value="300"></div><div class="field"><label>Hospedaje</label><input name="lodging" id="qLodging" type="number" value="0"></div><div class="field"><label>Materiales / etiquetas</label><input name="materials" id="qMaterials" type="number" value="0"></div><div class="field"><label>Otros costos</label><input name="other" id="qOther" type="number" value="100"></div>
 <div class="field"><label>Tipo de cliente</label><select name="clientSegment" id="qClientSegment"><option value="micro">Pequeño comercio / farmacia independiente</option><option value="small" selected>Pequeña empresa</option><option value="medium">Mediana empresa</option><option value="corporate">Corporación</option></select></div>
@@ -402,5 +425,92 @@
   $('#themeBtn').onclick=()=>{const dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';localStorage.setItem(SETTINGS,dark?'light':'dark')};document.documentElement.dataset.theme=localStorage.getItem(SETTINGS)||'light';
   
   if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
-  renderNav();render();
+
+  function mergeRemote(remote){
+    if(!remote || typeof remote!=='object') return;
+    db={...structuredClone(initial),...remote};
+    cacheLocal();
+    cloudHydrated=true;
+    const status=document.getElementById('cloudStatus');
+    if(status)status.textContent='v2.0 · Firebase conectado';
+    renderNav();
+    render();
+  }
+
+  function normalizePublicLead(item){
+    const generatedId=`LEA-WEB-${String(item.firestoreId||Date.now()).slice(0,10).toUpperCase()}`;
+    return {
+      id:generatedId,
+      date:item.date||today(),
+      company:item.company||'Sin empresa',
+      contact:item.contact||'Sin contacto',
+      phone:item.phone||'',
+      email:item.email||'',
+      service:item.service||'SER-001',
+      origin:'Diagnóstico web',
+      status:'Nuevo',
+      owner:'Sin asignar',
+      next:today(),
+      notes:item.notes||'Solicitud recibida desde AGP Web',
+      diagnosis:item.diagnosis||item,
+      firestoreSourceId:item.firestoreId
+    };
+  }
+
+  async function initializeFirebaseSync(){
+    if(!window.AGPCloud)return;
+    const status=document.getElementById('cloudStatus');
+    if(status)status.textContent='v2.0 · Sincronizando…';
+
+    window.AGPCloud.subscribeWorkspace(remote=>{
+      if(remote){
+        mergeRemote(remote);
+      }else if(!cloudHydrated){
+        cloudHydrated=true;
+        window.AGPCloud.saveWorkspace(db).then(()=>{
+          if(status)status.textContent='v2.0 · Firebase conectado';
+          toast('Base inicial sincronizada con Firebase');
+        }).catch(error=>{
+          console.error(error);
+          if(status)status.textContent='v2.0 · Error de sincronización';
+        });
+      }
+    },error=>{
+      console.error(error);
+      if(status)status.textContent='v2.0 · Sin conexión a Firestore';
+      toast('No se pudo leer Firestore');
+    });
+
+    window.AGPCloud.subscribePublicLeads(async publicLeads=>{
+      let imported=0;
+      for(const item of publicLeads){
+        const alreadyExists=db.leads.some(lead=>lead.firestoreSourceId===item.firestoreId);
+        if(alreadyExists)continue;
+        db.leads.unshift(normalizePublicLead(item));
+        imported++;
+      }
+      if(imported){
+        cacheLocal();
+        render();
+        try{
+          await window.AGPCloud.saveWorkspace(db);
+          for(const item of publicLeads){
+            if(db.leads.some(lead=>lead.firestoreSourceId===item.firestoreId)){
+              await window.AGPCloud.deletePublicLead(item.firestoreId);
+            }
+          }
+          toast(`${imported} lead(s) recibido(s) desde la web`);
+        }catch(error){
+          console.error('No se pudieron consolidar los leads:',error);
+        }
+      }
+    });
+
+    document.getElementById('logoutBtn')?.addEventListener('click',async()=>{
+      await window.AGPCloud.logout();
+      location.replace('login.html');
+    });
+  }
+
+  renderNav();render();initializeFirebaseSync();
 })();

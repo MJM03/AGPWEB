@@ -1,87 +1,81 @@
-# AGP Platform v1.0
+# AGP Platform v2.0 Firebase
 
-Proyecto unificado con:
-- `index.html`: web pública y estimador.
-- `admin.html`: ERP/CRM administrativo.
-- `pricing-engine.js`: motor único usado por ambos espacios.
-- Leads creados en la web aparecen en el módulo Leads del panel, usando almacenamiento local compartido.
+Versión conectada al proyecto Firebase `agp-platform`.
 
-## Uso
-Sube todos los archivos a la raíz de GitHub Pages. Abre `index.html`; el botón “Ingresar a AGP Platform” abre `admin.html`.
+## Qué funciona
 
-## WhatsApp
-Edita `AGP_WHATSAPP` en `app.js`.
+- Inicio de sesión real con Firebase Authentication.
+- Sesión persistente entre recargas.
+- Estado completo del ERP sincronizado con Cloud Firestore.
+- Actualización en tiempo real entre computadoras y celulares.
+- Diagnóstico público guardado en la colección `publicLeads`.
+- Importación automática de nuevos leads al ERP.
+- Eliminación del lead temporal después de consolidarlo en la base interna.
+- Respaldo local de emergencia en `localStorage`.
+- Herramienta manual de migración desde la versión local.
+- Reglas de Firestore incluidas.
+- Configuración para Firebase Hosting incluida.
 
-## Firebase
-Esta versión funciona sin configuración y guarda datos en el navegador. La siguiente etapa para producción multiusuario es sustituir el adaptador localStorage por Firebase Auth/Firestore, manteniendo el motor y las interfaces.
+## Archivos Firebase
 
+- `firebase-config.js`
+- `firebase-service.js`
+- `admin-bootstrap.js`
+- `firestore.rules`
+- `firestore.indexes.json`
+- `firebase.json`
+- `.firebaserc`
+- `migration.html`
+- `migration.js`
 
-## Acceso local protegido
-- URL: `login.html`
-- Usuario demo: `admin@agp.pe`
-- Contraseña demo: `AGP2026`
-- El panel `admin.html` redirige al login cuando no existe una sesión activa.
+## Paso obligatorio: publicar las reglas
 
-> Para producción, reemplazar este acceso local por Firebase Authentication.
+En Firebase Console:
 
+1. Firestore Database.
+2. Reglas.
+3. Reemplaza el contenido con `firestore.rules`.
+4. Pulsa **Publicar**.
 
-## Novedades v1.7
-- Formulario público de propuesta formal rediseñado y reordenado.
-- Cálculo de tiempo teórico a 1 producto por segundo por operario.
-- Cálculo operativo ajustable por eficiencia y horas por jornada.
-- Horas y jornadas estimadas visibles y guardadas en las cotizaciones del ERP.
+Sin estas reglas, la web pública podría no guardar leads o el ERP podría recibir errores de permisos.
 
+## Probar
 
-## Corrección v1.7
-- Recálculo inmediato y robusto del resultado comercial.
-- Lectura directa de todos los campos del cotizador.
-- Validación entre volumen, operarios y jornadas.
-- Cálculo de operarios mínimos para cumplir el plazo.
-- Aviso visual cuando el plan operativo es insuficiente.
-- Versionado de scripts para evitar que GitHub Pages o el navegador usen JavaScript anterior en caché.
+1. Publica todos los archivos en el mismo dominio.
+2. Abre `login.html`.
+3. Inicia sesión con el usuario creado en Firebase Authentication.
+4. Crea o modifica un registro.
+5. Abre `admin.html` en otro dispositivo e inicia sesión con el mismo usuario.
+6. Los cambios deben aparecer automáticamente.
 
+## Migración
 
-## Estrategia comercial v1.7
-El cotizador ahora genera cuatro escenarios:
-- Captación: 10% de margen bruto.
-- Inicio competitivo: 18% (recomendado para AGP en etapa inicial).
-- Sostenible: 25%.
-- Premium/corporativo: 32%.
+La primera vez que el ERP encuentra Firestore vacío, sube automáticamente la base disponible en el navegador.
 
-Estos porcentajes son editables y funcionan sobre el costo operativo calculado. El sistema no permite bajar del margen mínimo configurado ni vender por debajo del costo. Las bandas son una política interna inicial, no un tarifario comprobado del mercado, porque los competidores consultados cotizan cada operación según alcance y no publican precios comparables.
+También puedes abrir:
 
+`migration.html`
 
-## PDF profesional v1.7
-- Plantillas Premium, Corporativa y Comercial.
-- Portada personalizada por cliente.
-- Resumen ejecutivo, alcance, entregables y metodología.
-- Datos operativos, equipo, duración y propuesta económica.
-- Condiciones comerciales, contacto y espacios de firma.
-- Formato A4 listo para guardar como PDF desde el navegador.
+para forzar la migración de los datos locales. Esta acción reemplaza el estado de Firebase y crea una copia de seguridad local del estado anterior.
 
+## Firebase Hosting
 
-## Integración comercial v1.7
+Con Firebase CLI instalado:
 
-### Web pública
-- Se eliminó el cotizador y cualquier precio automático.
-- Se añadió un diagnóstico gratuito orientado a bodegas, farmacias y pequeños negocios.
-- El formulario registra el lead en AGP Platform y abre WhatsApp con el resumen.
-- La web explica qué recibirá el cliente: tiempo, personal, alcance y propuesta personalizada.
+```bash
+firebase login
+firebase deploy --only firestore:rules,firestore:indexes
+firebase deploy --only hosting
+```
 
-### ERP
-- Nuevo modo Barrio Express para farmacias y bodegas de hasta 3,000 productos y una sede.
-- Precio mínimo viable con margen inicial configurable.
-- Modalidades: Barrio Express, Lanzamiento, Crecimiento y Corporativo.
-- Variables de recurrencia, valor estratégico, rubro y etapa comercial de AGP.
-- Costeo por horas para operaciones pequeñas, evitando cobrar automáticamente una jornada completa.
-- Reducción automática de costos accesorios en propuestas pequeñas.
-- Nunca vende por debajo del costo calculado.
+## Arquitectura actual
 
-## Correcciones v1.7
-- Inputs del diagnóstico al 100% del ancho disponible.
-- Mejor jerarquía y espaciado en el bloque de contacto.
-- Tarjeta principal sin inclinación y llamada a la acción corregida.
-- “Negocio de barrio” reemplazado por “pequeño comercio” y “farmacia independiente”.
-- “Barrio Express” renombrado a “Plan Esencial”.
-- Botón Eliminar definitivo en clientes, leads, cotizaciones, proyectos, tareas, incidencias, personal, finanzas, facturas, pagos, proveedores, servicios y documentos.
-- Se conserva la acción Anular para mantener trazabilidad cuando corresponda.
+Para conservar compatibilidad con todos los módulos existentes, v2.0 almacena el estado del ERP en:
+
+`workspaces/default`
+
+Los diagnósticos públicos se reciben temporalmente en:
+
+`publicLeads`
+
+Esta arquitectura es adecuada para la etapa inicial. Cuando el volumen de información crezca, la siguiente evolución será separar clientes, cotizaciones, proyectos y movimientos en colecciones individuales para evitar el límite de tamaño de un documento de Firestore.
