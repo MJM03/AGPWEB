@@ -23,3 +23,10 @@ Esta versión funciona sin configuración y guarda datos en el navegador. La sig
 - El panel `admin.html` redirige al login cuando no existe una sesión activa.
 
 > Para producción, reemplazar este acceso local por Firebase Authentication.
+
+
+## Novedades v1.2
+- Formulario público de propuesta formal rediseñado y reordenado.
+- Cálculo de tiempo teórico a 1 producto por segundo por operario.
+- Cálculo operativo ajustable por eficiencia y horas por jornada.
+- Horas y jornadas estimadas visibles y guardadas en las cotizaciones del ERP.

@@ -212,23 +212,29 @@
               </div>
             </div>
 
-            <div class="form-section proposal-form-section">
-              <div class="form-section-title"><span>4</span><div><strong>Solicita una propuesta formal</strong><small>Completa tus datos solo cuando quieras que un asesor revise el alcance</small></div></div>
-              <div class="proposal-intro">
+            <button class="btn btn-primary btn-full estimate-update-btn" type="submit">Actualizar estimación</button>
+
+            <div class="proposal-form-section">
+              <div class="proposal-heading">
                 <div class="proposal-icon">✓</div>
-                <div><strong>Revisión personalizada por AGP</strong><p>Validaremos volumen, sedes, horarios y entregables antes de emitir el precio definitivo.</p></div>
+                <div>
+                  <span class="proposal-kicker">Siguiente paso</span>
+                  <strong>Recibe una propuesta formal</strong>
+                  <p>Déjanos tus datos solo cuando quieras que un asesor valide el alcance y prepare el precio definitivo.</p>
+                </div>
               </div>
-              <div class="fields-grid">
+              <div class="proposal-fields">
                 <label><span>Empresa</span><input id="leadCompany" type="text" placeholder="Nombre o razón social"></label>
-                <label><span>Persona de contacto</span><input id="leadContact" type="text" placeholder="Nombre completo"></label>
-                <label><span>Celular / WhatsApp</span><input id="leadPhone" type="tel" placeholder="999 999 999"></label>
+                <label><span>Contacto</span><input id="leadContact" type="text" placeholder="Nombre completo"></label>
+                <label><span>Celular / WhatsApp</span><input id="leadPhone" type="tel" inputmode="tel" placeholder="999 999 999"></label>
                 <label><span>Correo</span><input id="leadEmail" type="email" placeholder="correo@empresa.com"></label>
               </div>
               <button class="btn btn-proposal btn-full" id="saveLead" type="button">
-                <span>Solicitar revisión comercial</span><span aria-hidden="true">→</span>
+                <span>Solicitar revisión comercial</span>
+                <span class="proposal-arrow" aria-hidden="true">→</span>
               </button>
+              <small class="proposal-privacy">Sin compromiso. Usaremos tus datos únicamente para responder esta solicitud.</small>
             </div>
-            <button class="btn btn-primary btn-full" type="submit">Actualizar estimación</button>
           </form>
 
           <aside class="estimate-panel">
@@ -299,7 +305,7 @@
         <a href="login.html">Portal AGP</a>
         <small>Acceso para clientes y colaboradores</small>
       </div>
-      <span>© <span id="year"></span> AGP Control Integral · Versión 2.2</span>
+      <span>© <span id="year"></span> AGP Control Integral · Versión 2.3</span>
     </div>
   </footer>
 

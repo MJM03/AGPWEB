@@ -109,15 +109,25 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-s
 }
 
 /* AGP Platform v1.1 refinements */
-.proposal-form-section{background:linear-gradient(145deg,#f7fbfc,#eef7f7);border:1px solid #dbe9eb!important;border-radius:20px;padding:22px!important;margin-top:4px}
-.proposal-intro{display:flex;gap:13px;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:15px;padding:15px;margin-bottom:18px}
-.proposal-icon{width:38px;height:38px;flex:0 0 38px;display:grid;place-items:center;border-radius:11px;background:#def7ef;color:#118a71;font-weight:900}
-.proposal-intro strong,.proposal-intro p{display:block}.proposal-intro p{margin:3px 0 0;color:var(--muted);font-size:13px}
-.btn-proposal{margin-top:16px;background:linear-gradient(135deg,#0b1f33,#174463);color:white;justify-content:space-between;padding-inline:20px;box-shadow:0 12px 25px rgba(11,31,51,.16)}
+.estimate-update-btn{margin-bottom:24px}
+.proposal-form-section{background:#f6fafb;border:1px solid #d9e6e9;border-radius:20px;padding:22px;margin-top:0}
+.proposal-heading{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
+.proposal-icon{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border-radius:12px;background:#daf6ef;color:#0d8d76;font-weight:950;font-size:18px}
+.proposal-heading strong,.proposal-heading p,.proposal-kicker{display:block}
+.proposal-kicker{text-transform:uppercase;letter-spacing:.12em;color:#168e84;font-size:10px;font-weight:900;margin-bottom:3px}
+.proposal-heading strong{font-size:18px;color:var(--primary)}
+.proposal-heading p{margin:4px 0 0;color:var(--muted);font-size:13px;max-width:620px}
+.proposal-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.proposal-fields label>span{display:block;font-size:12px;font-weight:850;margin-bottom:6px;color:#263b4e}
+.proposal-fields input{width:100%;height:48px;border:1px solid var(--line);border-radius:12px;background:white;padding:0 13px;outline:none}
+.proposal-fields input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(43,183,169,.12)}
+.btn-proposal{margin-top:17px;background:linear-gradient(135deg,#0b1f33,#174463);color:white;justify-content:space-between;padding-inline:20px;box-shadow:0 12px 25px rgba(11,31,51,.16)}
+.proposal-arrow{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12)}
+.proposal-privacy{display:block;text-align:center;color:var(--muted);font-size:10px;margin-top:10px}
 .advisor-card{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:center;background:linear-gradient(145deg,#edfbf8,#e5f5f2);border:1px solid #cceae4;border-radius:18px;padding:16px}
 .advisor-icon{width:48px;height:48px;display:grid;place-items:center;background:white;color:var(--whatsapp);border-radius:14px;box-shadow:0 8px 20px rgba(19,126,102,.10)}
 .advisor-icon svg{width:28px;height:28px}.advisor-copy strong,.advisor-copy span{display:block}.advisor-copy strong{font-size:14px}.advisor-copy span{font-size:12px;color:var(--muted);margin-top:2px}
 .advisor-card .btn-whatsapp{grid-column:1/-1;width:100%;min-height:46px;border-radius:12px}
 .footer-access{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end}.footer-access a{font-weight:900;color:var(--primary)}.footer-access small{color:var(--muted)}
 .footer-layout>span{margin-left:0}
-@media(max-width:640px){.footer-access{margin-left:0;align-items:flex-start}.proposal-form-section{padding:17px!important}.advisor-card{grid-template-columns:auto 1fr}}
+@media(max-width:640px){.footer-access{margin-left:0;align-items:flex-start}.proposal-form-section{padding:17px}.proposal-fields{grid-template-columns:1fr}.advisor-card{grid-template-columns:auto 1fr}}
