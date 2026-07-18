@@ -1,4 +1,4 @@
-const AGP_WHATSAPP = "51999999999"; // Reemplazar por el número real de AGP.
+const AGP_WHATSAPP = "51992898514"; // Reemplazar por el número real de AGP.
 const DB_KEY = "agp-erp-v3-data";
 
 const $ = (selector) => document.querySelector(selector);
