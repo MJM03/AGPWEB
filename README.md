@@ -1,4 +1,4 @@
-# AGP Platform v2.0.2.1 Firebase
+# AGP Platform v2.0.3.1 Firebase
 
 Versión conectada al proyecto Firebase `agp-platform`.
 
@@ -81,11 +81,11 @@ Los diagnósticos públicos se reciben temporalmente en:
 Esta arquitectura es adecuada para la etapa inicial. Cuando el volumen de información crezca, la siguiente evolución será separar clientes, cotizaciones, proyectos y movimientos en colecciones individuales para evitar el límite de tamaño de un documento de Firestore.
 
 
-## Corrección v2.0.2
+## Corrección v2.0.3
 Se corrigió el error de sintaxis de `firestore.rules` provocado por el acceso mediante `.service`, ya que `service` es una palabra reservada del lenguaje de reglas. La nueva versión valida la presencia de ese campo usando `keys().hasAll()` y mantiene comprobaciones de tipo y longitud para los datos públicos.
 
 
-## Mobile Experience v2.0.2
+## Mobile Experience v2.0.3
 - Menú móvil convertido en panel sólido a pantalla completa.
 - Corrección definitiva del solapamiento entre navegación y hero.
 - Header compacto con botón animado abrir/cerrar.
@@ -93,3 +93,18 @@ Se corrigió el error de sintaxis de `firestore.rules` provocado por el acceso m
 - Hero, botones, indicadores, formularios y tarjetas optimizados para iPhone y Android.
 - Compatibilidad con áreas seguras de iOS.
 - Versionado CSS/JS para evitar caché antigua en GitHub Pages.
+
+
+## Corrección crítica del menú v2.0.3
+
+El menú móvil fue separado de `app.js` y de las importaciones de Firebase.
+
+Antes, si el SDK de Firebase no cargaba, tardaba o era bloqueado, el archivo modular no se ejecutaba y el botón hamburguesa quedaba sin funcionalidad.
+
+Ahora:
+
+- `mobile-menu.js` es un script clásico e independiente.
+- El menú funciona aun sin conexión a Firebase.
+- Incluye cierre por enlace, toque exterior, tecla Escape, cambio de tamaño y restauración de página en iOS.
+- Se añadieron `aria-controls`, `aria-hidden` y foco accesible.
+- Los scripts usan una versión nueva para evitar caché de GitHub Pages y Safari.

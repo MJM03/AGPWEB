@@ -16,11 +16,11 @@
         <img src="logo-agp.svg" alt="Logo AGP Control Integral" class="brand-logo">
       </a>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="nav" id="mainNav">
+      <nav class="nav" id="mainNav" aria-hidden="true">
         <a href="#servicios">Servicios</a>
         <a href="#metodologia">Cómo trabajamos</a>
         <a href="#diagnostico">Diagnóstico gratuito</a>
@@ -296,11 +296,13 @@
         <a href="login.html">Portal AGP</a>
         <small>Acceso para clientes y colaboradores</small>
       </div>
-      <span>© <span id="year"></span> AGP Control Integral · Versión 3.1 Mobile Firebase</span>
+      <span>© <span id="year"></span> AGP Control Integral · Versión 3.2 Mobile Firebase</span>
     </div>
   </footer>
 
   <div class="toast" id="toast"></div>
-  <script src="pricing-engine.js?v=2.0"></script><script type="module" src="app.js?v=2.0.2"></script>
+  <script src="mobile-menu.js?v=2.0.3"></script>
+  <script src="pricing-engine.js?v=2.0.3"></script>
+  <script type="module" src="app.js?v=2.0.3"></script>
 </body>
 </html>

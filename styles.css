@@ -393,3 +393,26 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-s
   .hero-actions .btn{font-size:15px}
   .diagnosis-form,.diagnosis-benefits{padding:18px}
 }
+
+
+/* Menú móvil aislado de Firebase — v2.0.3 */
+@media (max-width:900px){
+  #mainNav[aria-hidden="true"]{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translateY(-12px);
+  }
+  #mainNav.open,
+  #mainNav[aria-hidden="false"]{
+    display:flex !important;
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateY(0);
+  }
+  #menuToggle{
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+  }
+}

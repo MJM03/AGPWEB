@@ -125,34 +125,4 @@ $("#floatingWhatsapp")?.addEventListener("click", event => {
   openWhatsapp("Hola, AGP. Quisiera solicitar una evaluación gratuita para mi inventario.");
 });
 
-const menuToggle = $("#menuToggle");
-const mainNav = $("#mainNav");
-
-function setMenu(open) {
-  mainNav?.classList.toggle("open", open);
-  document.body.classList.toggle("menu-open", open);
-  menuToggle?.setAttribute("aria-expanded", String(open));
-  menuToggle?.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
-}
-
-menuToggle?.addEventListener("click", event => {
-  event.stopPropagation();
-  setMenu(!mainNav.classList.contains("open"));
-});
-
-mainNav?.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setMenu(false)));
-
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") setMenu(false);
-});
-
-document.addEventListener("click", event => {
-  if (!mainNav?.classList.contains("open")) return;
-  if (!mainNav.contains(event.target) && !menuToggle?.contains(event.target)) setMenu(false);
-});
-
-window.addEventListener("resize", () => {
-  if (window.innerWidth > 900) setMenu(false);
-});
-
 if ($("#year")) $("#year").textContent = new Date().getFullYear();
